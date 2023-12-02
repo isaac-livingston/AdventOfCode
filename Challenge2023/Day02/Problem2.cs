@@ -107,12 +107,12 @@ namespace Challenge2023.Day02
 
             LoadPlayedGames(inputs);
 
-            List<int> validGameIds = [];
+            List<int> gamePowers = [];
 
             foreach (var game in Games)
             {
-                var testResult = GetGamePower(game);
-                validGameIds.Add(testResult);
+                var gamePower = GetGamePower(game);
+                gamePowers.Add(gamePower);
             }
 
             foreach (var game in Games)
@@ -120,7 +120,7 @@ namespace Challenge2023.Day02
                 Console.WriteLine($"{game.Id}\t{game.Results.Count}\t{game.Results.Sum(x => x.Red)}\t{game.Results.Sum(x => x.Green)}\t{game.Results.Sum(x => x.Blue)}");
             }
 
-            Console.WriteLine($"Total: {validGameIds.Sum():N0}");
+            Console.WriteLine($"Total: {gamePowers.Sum():N0}");
         }
     }
 }
