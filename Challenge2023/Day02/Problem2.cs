@@ -1,8 +1,8 @@
 ﻿using Interfaces;
 
-namespace AdventOfCode.Day02
+namespace Challenge2023.Day02
 {
-    internal class Problem1 : IProblem
+    internal class Problem2 : IProblem
     {
         public void RunSolution(params object[] vars)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Interfaces;
 
-namespace AdventOfCode.Day01
+namespace Challenge2023.Day01
 {
     internal class Problem2 : IProblem
     {
