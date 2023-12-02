@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Interfaces;
 
 namespace AdventOfCode.Day01
 {
@@ -6,7 +7,7 @@ namespace AdventOfCode.Day01
     {
         static string[] GetInputs()
         {
-            return File.ReadAllLines(@"input.txt", Encoding.UTF8);
+            return File.ReadAllLines(@"day01\input.txt", Encoding.UTF8);
         }
 
         static Dictionary<string, int> LookupTable => new()
@@ -114,7 +115,7 @@ namespace AdventOfCode.Day01
                 sb.AppendLine($"{inputString}\t{decodeResult}");
             }
 
-            File.WriteAllText(@"I:\Projects\Insight\Development\2023\AdventOfCode_2023\data\day01\output.txt", sb.ToString());
+            File.WriteAllText(@"day01\output.txt", sb.ToString());
 
             Console.WriteLine(DecodedResults.Sum());
         }

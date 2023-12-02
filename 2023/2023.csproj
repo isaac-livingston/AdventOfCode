@@ -9,4 +9,13 @@
     <AssemblyName>2023</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="Day01\input.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Day01\output.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
