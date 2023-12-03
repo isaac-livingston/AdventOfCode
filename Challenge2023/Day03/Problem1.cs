@@ -1,6 +1,5 @@
 ﻿using Challenge2023.Common;
 using Challenge2023.Day03.Models;
-using System.Linq;
 
 namespace Challenge2023.Day03
 {
@@ -51,14 +50,14 @@ namespace Challenge2023.Day03
 
             if (point.Row > 0)
             {
-                influences.Add(new(point.Row -1, point.Col));
-                onTop = true; 
+                influences.Add(new(point.Row - 1, point.Col));
+                onTop = true;
             }
 
             if (point.Row < matrixHeight)
             {
                 influences.Add(new(point.Row + 1, point.Col));
-                onBottom = true; 
+                onBottom = true;
             }
 
             if (point.Col > 0)
@@ -99,7 +98,7 @@ namespace Challenge2023.Day03
             var influences = Symbols.SelectMany(x => x.Influences).ToList();
             var digitPoints = new List<Point>();
 
-            foreach(var influence in influences)
+            foreach (var influence in influences)
             {
                 var value = inputs[influence.Row][influence.Col].ToString();
                 if (int.TryParse(value, out var digit))
@@ -115,7 +114,7 @@ namespace Challenge2023.Day03
         {
             var maxCol = inputs[0].Length;
 
-            foreach(var point in symboldAdjacentDigitPoints)
+            foreach (var point in symboldAdjacentDigitPoints)
             {
                 var col = point.Col;
 
@@ -123,7 +122,7 @@ namespace Challenge2023.Day03
                 {
                     col--;
                 }
-                
+
                 if (!int.TryParse(inputs[point.Row][col].ToString(), out var _))
                 {
                     col++;
@@ -150,23 +149,9 @@ namespace Challenge2023.Day03
 
             LoadSybmolsFromMatrix(inputs);
 
-            //foreach (var sym in Symbols)
-            //{
-            //    Console.WriteLine($"{sym.Value}\t{sym.Point.Row}\t{sym.Point.Col}\t[{string.Join("; ", sym.Influences.Select(x => $"{x.Row},{x.Col}"))}]");
-            //}
-
             var digitPoints = GetPointsOfSymbolAdjacentDigits(inputs);
-            //foreach (var digit in digitPoints)
-            //{
-            //    Console.WriteLine($"{inputs[digit.Row][digit.Col]}\t{digit.Row},{digit.Col}");
-            //}
 
             LoadSymbolAdjacentDigits(inputs, digitPoints);
-
-            //foreach (var dpoint in SymbolAdjacentDigits)
-            //{
-            //    Console.WriteLine($"{dpoint.Value}\t{dpoint.Key.Row},{dpoint.Key.Col}");
-            //}
 
             Console.WriteLine();
             Console.WriteLine($"Total: {SymbolAdjacentDigits.Values.Sum():N0}");
