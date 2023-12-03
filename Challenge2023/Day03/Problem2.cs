@@ -177,7 +177,7 @@ namespace Challenge2023.Day03
             var gearRatio = GetGearRatioOutput();
 
             Console.WriteLine();
-            Console.WriteLine($"Total: {SymbolAdjacentDigits.Values.Select(x => x.partNumber).Sum():N0}");
+            
             Console.WriteLine($"Gear Ratio: {gearRatio:N0}");
         }
     }
