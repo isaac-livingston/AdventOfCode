@@ -1,10 +1,10 @@
-﻿using Interfaces;
+﻿using Challenge2023.Common;
 
 namespace Challenge2023.Day01
 {
-    internal class Problem1 : IProblem
+    internal class Problem1 : ProblemBase
     {
-        public void RunSolution(params object[] vars)
+        public override void RunSolution()
         {
             /*
              * The code for problem one was morphed in to Problem 2
