@@ -26,7 +26,7 @@ namespace Challenge2023.Day01
             if (Enum.TryParse<NumberValues>(sample, out var numberValue))
             {
                 return (int)numberValue;
-            }    
+            }
 
             return null;
         }
