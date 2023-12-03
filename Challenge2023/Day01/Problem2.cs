@@ -1,36 +1,21 @@
-﻿using System.Text;
-using Interfaces;
+﻿using Challenge2023.Common;
 
 namespace Challenge2023.Day01
 {
-    internal class Problem2 : IProblem
+    internal class Problem2 : ProblemBase
     {
-        static string[] GetInputs()
+        enum NumberValues
         {
-            return File.ReadAllLines(@"day01\input.txt", Encoding.UTF8);
+            one = 1,
+            two = 2,
+            three = 3,
+            four = 4,
+            five = 5,
+            six = 6,
+            seven = 7,
+            eight = 8,
+            nine = 9
         }
-
-        static Dictionary<string, int> LookupTable => new()
-        {
-            { "one", 1 },
-            { "two", 2 },
-            { "three", 3 },
-            { "four", 4 },
-            { "five", 5 },
-            { "six", 6 },
-            { "seven", 7 },
-            { "eight", 8 },
-            { "nine", 9 },
-            { "1", 1 },
-            { "2", 2 },
-            { "3", 3 },
-            { "4", 4 },
-            { "5", 5 },
-            { "6", 6 },
-            { "7", 7 },
-            { "8", 8 },
-            { "9", 9 },
-        };
 
         List<int> DecodedResults { get; set; } = [];
 
@@ -38,10 +23,10 @@ namespace Challenge2023.Day01
         {
             var sample = string.Join(null, input.Skip(start).Take(end));
 
-            if (LookupTable.TryGetValue(sample, out int value))
+            if (Enum.TryParse<NumberValues>(sample, out var numberValue))
             {
-                return value;
-            }
+                return (int)numberValue;
+            }    
 
             return null;
         }
@@ -90,7 +75,7 @@ namespace Challenge2023.Day01
 
         static int GetDecodedTwoDigitValue(string input)
         {
-            var max = LookupTable.Keys.Select(x => x.Length).Max() + 1;
+            var max = Enum.GetNames<NumberValues>().Max(x => x.Length);
 
             var left = SeekLeftDigit(input, max);
             var right = SeekRightDigit(input, max);
@@ -98,11 +83,9 @@ namespace Challenge2023.Day01
             return left * 10 + right;
         }
 
-        public void RunSolution(params object[] vars)
+        public override void RunSolution()
         {
-            var inputs = GetInputs();
-
-            var sb = new StringBuilder();
+            var inputs = GetInputs(folder: "day01");
 
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -111,11 +94,7 @@ namespace Challenge2023.Day01
                 var decodeResult = GetDecodedTwoDigitValue(inputString);
 
                 DecodedResults.Add(decodeResult);
-
-                sb.AppendLine($"{inputString}\t{decodeResult}");
             }
-
-            File.WriteAllText(@"day01\output.txt", sb.ToString());
 
             Console.WriteLine(DecodedResults.Sum());
         }
