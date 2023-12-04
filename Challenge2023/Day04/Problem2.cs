@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Challenge2023.Day04
+﻿namespace Challenge2023.Day04
 {
     internal class Problem2 : Day04Base
     {
@@ -12,7 +6,12 @@ namespace Challenge2023.Day04
         {
             var inputs = GetInputs(folder: "day04");
 
+            var cards = GetCards(inputs);
+
+            cards = GetExpandedWinners(cards);
+
             Console.WriteLine();
+            Console.WriteLine($"Total: {cards.Count:N0}");
         }
     }
 }
