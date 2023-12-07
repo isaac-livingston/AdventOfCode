@@ -1,6 +1,11 @@
-﻿
-int day = 6;
-int problem = 2;
+﻿using Challenge2023.Common;
+using System.Reflection;
+
+string? assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+string? defaultNameSpace = assemblyName;
+
+int day = 7;
+int problem = 1;
 
 if (args.Length == 2)
 {
@@ -8,44 +13,25 @@ if (args.Length == 2)
     problem = int.Parse(args[1]);
 }
 
-switch (day, problem)
-{
-    case (1, 1):
-    case (1, 2):
-        new Challenge2023.Day01.Problem2().RunSolution();
-        break;
-    case (2, 1):
-        new Challenge2023.Day02.Problem1().RunSolution();
-        break;
-    case (2, 2):
-        new Challenge2023.Day02.Problem2().RunSolution();
-        break;
-    case (3, 1):
-        new Challenge2023.Day03.Problem1().RunSolution();
-        break;
-    case (3, 2):
-        new Challenge2023.Day03.Problem2().RunSolution();
-        break;
-    case (4, 1):
-        new Challenge2023.Day04.Problem1().RunSolution();
-        break;
-    case (4, 2):
-        new Challenge2023.Day04.Problem2().RunSolution();
-        break;
-    case (5, 1):
-        new Challenge2023.Day05.Problem1().RunSolution();
-        break;
-    case (5, 2):
-        new Challenge2023.Day05.Problem2().RunSolution();
-        break;
-    case (6, 1):
-        new Challenge2023.Day06.Problem1().RunSolution();
-        break;
-    case (6, 2):
-        new Challenge2023.Day06.Problem2().RunSolution();
-        break;
+var problemName = $"{defaultNameSpace}.Day{day.ToString().PadLeft(2, '0')}.Problem{problem}, {assemblyName}";
+var problemType = Type.GetType(problemName);
 
+if (problemType == null)
+{
+    Console.WriteLine($"A valid type could not be determined using the given params of [{day}] and [{problem}].\n" +
+                      $"The resulting qualified name string was: [{problemName}]");
+    return;
 }
+
+var problemInstance = Activator.CreateInstance(problemType) as ProblemBase;
+
+if (problemInstance == null)
+{
+    Console.WriteLine($"Hmmm... an instance of [{problemType}] was not able to be created.");
+    return;
+}
+
+problemInstance.RunSolution();
 
 Console.WriteLine();
 Console.WriteLine("fin.");
