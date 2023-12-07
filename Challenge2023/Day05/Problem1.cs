@@ -1,27 +1,23 @@
 ﻿using Challenge2023.Common;
-using Challenge2023.Day05.Models;
 
 namespace Challenge2023.Day05
 {
     internal class Problem1 : Day05Base
     {
-        protected override void LoadSeeds(string seedLine)
+        protected override void DetermineLowestLocation(string seedLine)
         {
-            var seedValues = seedLine.Split(':', SPLIT_OPTS)[1].Split(' ');
-            var lowestLoc = long.MaxValue;
+            var seedValues = seedLine.Split(':', SPLIT_OPTS)[1]
+                                     .Split(' ')
+                                     .Select(long.Parse)
+                                     .ToArray();
 
             for (var i = 0; i < seedValues.Length; i++)
             {
-                var startingSeed = long.Parse(seedValues[i]);
+                var startingSeed = seedValues[i];
 
                 MapOutSeed(startingSeed, out var location);
-                lowestLoc = Math.Min(location, lowestLoc);
+                LowestLocation = Math.Min(location, LowestLocation);
             }
-
-            Seeds.Add(new Seed(0) 
-            {
-                Location = lowestLoc 
-            });
         }
 
         public override void RunSolution()
@@ -32,7 +28,7 @@ namespace Challenge2023.Day05
 
             InitializeData(inputs);
 
-            var lowestLoc = Seeds.Select(x => x.Location).Min(x => x);
+            var lowestLoc = LowestLocation;
 
             stopwatch.Stop();
 

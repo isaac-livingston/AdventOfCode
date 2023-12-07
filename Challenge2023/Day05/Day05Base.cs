@@ -1,11 +1,13 @@
 ﻿using Challenge2023.Common;
 using Challenge2023.Day05.Models;
 
+#nullable disable
+
 namespace Challenge2023.Day05
 {
     internal abstract class Day05Base : ProblemBase
     {
-        protected List<Seed> Seeds = [];
+        protected long LowestLocation = long.MaxValue;
 
         protected readonly Dictionary<string, Map> ReverseMaps = [];
 
@@ -26,7 +28,7 @@ namespace Challenge2023.Day05
                 LoadMap(set);
             }
 
-            LoadSeeds(sets[0][0]);
+            DetermineLowestLocation(sets[0][0]);
         }
 
         private List<List<string>> DecomposeInputs(string[] inputs)
@@ -63,7 +65,7 @@ namespace Challenge2023.Day05
             return sets;
         }
 
-        protected abstract void LoadSeeds(string seedLine);
+        protected abstract void DetermineLowestLocation(string seedLine);
 
         private void LoadMap(List<string> mapInputs)
         {
