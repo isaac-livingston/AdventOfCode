@@ -5,6 +5,8 @@ namespace Challenge2023.Common
 {
     internal abstract class ProblemBase
     {
+        protected const StringSplitOptions SPLIT_OPTS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+
         protected readonly Stopwatch stopwatch = new();
 
         public virtual string[] GetInputs(string folder, string filename = "input.txt")

@@ -5,8 +5,6 @@ namespace Challenge2023.Day05
 {
     internal abstract class Day05Base : ProblemBase
     {
-        protected const StringSplitOptions SPLIT_OPTS = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
-
         protected List<Seed> Seeds = [];
 
         protected readonly Dictionary<string, Map> ReverseMaps = [];
