@@ -1,4 +1,6 @@
-﻿namespace Challenge2023.Day05.Models
+﻿using System;
+
+namespace Challenge2023.Day05.Models
 {
     internal class Map
     {
@@ -18,16 +20,42 @@
                 ranges[i] = tableRecords[i][2];
             }
 
-            Table = new MapTable(sources,
-                                 destinations,
-                                 ranges);
+            Source = sources;
+            Destination = destinations;
+            Range = ranges;
+            MaxSource = SetMaxSource(sources, ranges);
         }
 
-        public long this[long key]
+        public long[] Source { get; }
+        public long[] Destination { get; }
+        public long[] Range { get; }
+        public long[] MaxSource { get; private set; }
+
+        private static long[] SetMaxSource(long[] sources, long[] ranges)
         {
-            get => Table[key];
+            var maxes = new long[sources.Length];
+            for (int i = 0; i < sources.Length; i++)
+            {
+                maxes[i] = sources[i] + ranges[i];
+            }
+
+            return maxes;
         }
 
-        private MapTable Table { get; }
+        public long this[long source]
+        {
+            get
+            {
+                for (var i = 0; i < Source.Length; i++)
+                {
+                    if (source >= Source[i] && source <= MaxSource[i])
+                    {
+                        return Destination[i] + (Range[i] - (MaxSource[i] - source));
+                    }
+                }
+
+                return source;
+            }
+        }
     }
 }

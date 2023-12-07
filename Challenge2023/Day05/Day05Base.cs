@@ -9,50 +9,46 @@ namespace Challenge2023.Day05
     {
         protected long LowestLocation = long.MaxValue;
 
-        protected readonly Dictionary<string, Map> ReverseMaps = [];
-
-        protected Map SeedToSoil { get; set; }
-        protected Map SoilToFertilizer { get; set; }
-        protected Map FertilizerToWater { get; set; }
-        protected Map WaterToLight { get; set; }
-        protected Map LightToTemperature { get; set; }
-        protected Map TemperatureToHumidity { get; set; }
-        protected Map HumidityToLocation { get; set; }
+        protected Map SeedToSoil { get; private set; }
+        protected Map SoilToFertilizer { get; private set; }
+        protected Map FertilizerToWater { get; private set; }
+        protected Map WaterToLight { get; private set; }
+        protected Map LightToTemperature { get; private set; }
+        protected Map TemperatureToHumidity { get; private set; }
+        protected Map HumidityToLocation { get; private set; }
 
         protected void InitializeData(string[] inputs)
         {
             var sets = DecomposeInputs(inputs);
 
-            foreach (var set in sets.Skip(1))
+            if (sets.Count > 1)
             {
-                LoadMap(set);
+                foreach (var set in sets.Skip(1))
+                {
+                    LoadMap(set);
+                }
             }
 
-            DetermineLowestLocation(sets[0][0]);
+            if (sets.Count > 0 && sets[0].Count > 0)
+            {
+                DetermineLowestLocation(sets[0][0]);
+            }
         }
 
-        private List<List<string>> DecomposeInputs(string[] inputs)
+        private static List<List<string>> DecomposeInputs(string[] inputs)
         {
-            var sets = new List<List<string>>
-            {
-                new() {
-                    inputs[0]
-                }
-            };
-
+            var sets = new List<List<string>>();
             var lineSet = new List<string>();
 
-            for (var i = 1; i < inputs.Length; i++)
+            foreach (var input in inputs)
             {
-                var input = inputs[i];
-
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     if (lineSet.Count > 0)
                     {
                         sets.Add(lineSet);
+                        lineSet = [];
                     }
-                    lineSet = [];
                 }
                 else
                 {
@@ -60,7 +56,10 @@ namespace Challenge2023.Day05
                 }
             }
 
-            sets.Add(lineSet);
+            if (lineSet.Count > 0)
+            {
+                sets.Add(lineSet);
+            }
 
             return sets;
         }
@@ -73,42 +72,28 @@ namespace Challenge2023.Day05
 
             var tables = mapInputs.Skip(1).ToList();
 
-            switch(mapKey)
+            _ = mapKey switch
             {
-                case "seed-to-soil":
-                    SeedToSoil = new Map(tables);
-                    break;
-                case "soil-to-fertilizer":
-                    SoilToFertilizer = new Map(tables);
-                    break;
-                case "fertilizer-to-water":
-                    FertilizerToWater = new Map(tables);
-                    break;
-                case "water-to-light":
-                    WaterToLight = new Map(tables);
-                    break;
-                case "light-to-temperature":
-                    LightToTemperature = new Map(tables);
-                    break;
-                case "temperature-to-humidity":
-                    TemperatureToHumidity = new Map(tables);
-                    break;
-                default:
-                    HumidityToLocation = new Map(tables);
-                    break;
-            }
+                MapNames.SeedToSoil => SeedToSoil = new Map(tables),
+                MapNames.SoilToFertilizer => SoilToFertilizer = new Map(tables),
+                MapNames.FertilizerToWater => FertilizerToWater = new Map(tables),
+                MapNames.WaterToLight => WaterToLight = new Map(tables),
+                MapNames.LightToTemperature => LightToTemperature = new Map(tables),
+                MapNames.TemperatureToHumidity => TemperatureToHumidity = new Map(tables),
+                _ => HumidityToLocation = new Map(tables)
+            };
         }
 
-        protected void MapOutSeed(long seedValue, out long location)
+        protected void MapSeedToLocation(long seedId, out long locationId)
         {
-            location =  
+            locationId =
                 HumidityToLocation[
                     TemperatureToHumidity[
                         LightToTemperature[
                             WaterToLight[
                                 FertilizerToWater[
                                     SoilToFertilizer[
-                                        SeedToSoil[seedValue]]]]]]];
+                                        SeedToSoil[seedId]]]]]]];
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Challenge2023.Day05
             {
                 var startingSeed = seedValues[i];
 
-                MapOutSeed(startingSeed, out var location);
+                MapSeedToLocation(startingSeed, out var location);
                 LowestLocation = Math.Min(location, LowestLocation);
             }
         }
