@@ -1,4 +1,6 @@
-﻿namespace Challenge2023.Day06
+﻿using Challenge2023.Common;
+
+namespace Challenge2023.Day06
 {
     internal class Problem2 : Day06Base
     {
@@ -19,11 +21,8 @@
 
             stopwatch.Stop();
 
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("solution: " + solution);
-            Console.WriteLine();
-            Console.WriteLine("duration: " + stopwatch.ElapsedMilliseconds + " ms");
+            ConsoleTools.PrintSolutionMessage(solution);
+            ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
         }
     }
 }
