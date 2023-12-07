@@ -12,6 +12,7 @@
 //new Challenge2023.Day04.Problem2().RunSolution();
 
 //new Challenge2023.Day05.Problem1().RunSolution();
+//correct answer but 246539 ms to complete
 new Challenge2023.Day05.Problem2().RunSolution();
 
 Console.WriteLine();
