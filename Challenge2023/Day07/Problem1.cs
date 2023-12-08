@@ -1,6 +1,5 @@
 ﻿using Challenge2023.Common;
 using System.Collections.Frozen;
-using System.Text;
 
 namespace Challenge2023.Day07
 {
@@ -30,15 +29,16 @@ namespace Challenge2023.Day07
 
         public override void RunSolution()
         {
-            stopwatch.Start();
             var inputs = GetInputs(folder: "day07");
+
+            stopwatch.Start();
 
             LoadHands(inputs);
 
             var solution = 0L;
             var iter = 1L;
 
-            foreach(var key in Hands.Keys)
+            foreach (var key in Hands.Keys)
             {
                 solution += Hands[key].bet * iter;
                 iter++;
