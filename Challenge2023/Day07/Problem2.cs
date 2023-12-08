@@ -29,8 +29,9 @@ namespace Challenge2023.Day07
 
         public override void RunSolution()
         {
-            stopwatch.Start();
             var inputs = GetInputs(folder: "day07");
+
+            stopwatch.Start();
 
             LoadHands(inputs, jokersWild: true);
 
