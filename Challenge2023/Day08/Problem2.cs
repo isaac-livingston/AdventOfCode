@@ -16,6 +16,7 @@ namespace Challenge2023.Day08
 
             stopwatch.Stop();
 
+            ConsoleTools.PrintAttributionMessage("mohammedsouleymane");
             ConsoleTools.PrintSolutionMessage($"{solution}");
             ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
         }

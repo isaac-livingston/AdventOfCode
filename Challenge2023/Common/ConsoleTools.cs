@@ -11,11 +11,22 @@
 
         public static void PrintSolutionMessage(object solution)
         {
-            Console.WriteLine();
+            Console.WriteLine("");
             Console.Write("solution: ");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write(solution);
             Console.ResetColor();
+        }
+
+        public static void PrintAttributionMessage(object attribution)
+        {
+            Console.WriteLine();
+            Console.Write("special thanks and recognition to: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(attribution);
+            Console.ResetColor();
+            Console.Write(", who's work was used in some part to arrive at this solution.");
+            Console.WriteLine("");
         }
 
         public static void PrintDurationMessage(object duration, string unit = "ms")
