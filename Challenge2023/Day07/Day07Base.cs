@@ -47,10 +47,10 @@ namespace Challenge2023.Day07
                 power[i] = Cards[hand[i]];
             }
 
-            return (GetHandScale(handInput, jokersWild), power);
+            return (GetHandRank(handInput, jokersWild), power);
         }
 
-        int GetHandScale(string handInput, bool jokersWild = false)
+        int GetHandRank(string handInput, bool jokersWild = false)
         {
             if (jokersWild)
             {
@@ -73,27 +73,27 @@ namespace Challenge2023.Day07
 
             var cardCounts = GetCardCounts(handInput);
 
-            if (cardCounts.ContainsValue(5))
+            if (cardCounts.ContainsValue(5)) // five of a kind
             {
                 return 6;
             }
-            else if (cardCounts.ContainsValue(4))
+            else if (cardCounts.ContainsValue(4)) // four of a kind
             {
                 return 5;
             }
-            else if (cardCounts.ContainsValue(3) && cardCounts.ContainsValue(2))
+            else if (cardCounts.ContainsValue(3) && cardCounts.ContainsValue(2)) // full house
             {
                 return 4;
             }
-            else if (cardCounts.ContainsValue(3))
+            else if (cardCounts.ContainsValue(3)) // three of a kind
             {
                 return 3;
             }
-            else if (cardCounts.ContainsValue(2))
+            else if (cardCounts.ContainsValue(2)) // at least one pair
             {
-                var xx = GroupByCardCount(cardCounts);
-
-                if (xx.ContainsValue(2))
+                //check if we have two pairs
+                var countGroups = GroupByCardCount(cardCounts);
+                if (countGroups.ContainsValue(2))
                 {
                     return 2;
                 }
@@ -104,12 +104,18 @@ namespace Challenge2023.Day07
             return 0;
         }
 
+        /// <summary>
+        /// group by the card and count how many groups there are
+        /// </summary>
         static Dictionary<char, int> GetCardCounts(string handInput) =>
             handInput.GroupBy(c => c)
                      .ToDictionary(g => g.Key, g => g.Count());
 
+        /// <summary>
+        /// group by the card count and determin how many different cards exist per count
+        /// </summary>
         static Dictionary<int, int> GroupByCardCount(Dictionary<char, int> cardCounts) =>
-            cardCounts.GroupBy(entry => entry.Value)
-                      .ToDictionary(group => group.Key, group => group.Select(entry => entry.Key).Count());
+            cardCounts.GroupBy(n => n.Value)
+                      .ToDictionary(g => g.Key, g => g.Select(x => x.Key).Count());
     }
 }
