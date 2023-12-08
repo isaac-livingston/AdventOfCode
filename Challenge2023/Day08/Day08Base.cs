@@ -1,6 +1,7 @@
 ﻿using Challenge2023.Common;
 using System.Collections.Frozen;
-using System.Net;
+
+#nullable disable
 
 namespace Challenge2023.Day08
 {
@@ -33,12 +34,12 @@ namespace Challenge2023.Day08
             Map = coords.ToFrozenDictionary();
         }
 
-        protected (long steps, string key) TraverseMap(Func<string, bool> evaluator, string key = "AAA", long limit = 1L)
+        protected (long steps, string key) TraverseMap(Func<string, bool> untilDestinationCondition, string key = "AAA", long limit = 1L)
         {
             var iter = 0L;
             var counter = 0L;
 
-            while (evaluator(key))
+            while (untilDestinationCondition(key))
             {
                 var lr = Steps[iter];
                 key = Map[key][lr];
