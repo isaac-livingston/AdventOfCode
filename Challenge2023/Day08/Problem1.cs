@@ -12,7 +12,7 @@ namespace Challenge2023.Day08
 
             LoadData(inputs);
 
-            var solution = TraverseMap((x) => x != "ZZZ", "AAA");
+            var solution = TraverseMap((x) => x != "ZZZ", "AAA", int.MaxValue);
 
             stopwatch.Stop();
 
