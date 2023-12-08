@@ -112,7 +112,7 @@ namespace Challenge2023.Day07
                      .ToDictionary(g => g.Key, g => g.Count());
 
         /// <summary>
-        /// group by the card count and determin how many different cards exist per count
+        /// group by the card count and determin how many cards exist per count
         /// </summary>
         static Dictionary<int, int> GroupByCardCount(Dictionary<char, int> cardCounts) =>
             cardCounts.GroupBy(n => n.Value)
