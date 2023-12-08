@@ -33,47 +33,7 @@ namespace Challenge2023.Day07
             stopwatch.Start();
             var inputs = GetInputs(folder: "day07");
 
-            //inputs = [
-            //    "32T3K 765",
-            //    "T55J5 684",
-            //    "KK677 28",
-            //    "KTJJT 220",
-            //    "QQQJA 483",
-            //    "QQQAA 483",
-            //];
-
-            //inputs = [
-            //    "2345A 1",
-            //    "Q2KJJ 13",
-            //    "Q2Q2Q 19",
-            //    "T3T3J 17",
-            //    "T3Q33 11",
-            //    "2345J 3",
-            //    "J345A 2",
-            //    "32T3K 5",
-            //    "T55J5 29",
-            //    "KK677 7",
-            //    "KTJJT 34",
-            //    "QQQJA 31",
-            //    "JJJJJ 37",
-            //    "JAAAA 43",
-            //    "AAAAJ 59",
-            //    "AAAAA 61",
-            //    "2AAAA 23",
-            //    "2JJJJ 53",
-            //    "JJJJ2 41",
-            //];
-
             LoadHands(inputs);
-            var sb = new StringBuilder();
-            foreach (var key in Hands.Keys)
-            {
-                var val = $"{key} {Hands[key].bet}:\t{Hands[key].scale}\t{Hands[key].power[0]}\t{Hands[key].power[1]}\t{Hands[key].power[2]}\t{Hands[key].power[3]}\t{Hands[key].power[4]}";
-                sb.AppendLine(val);
-                Console.WriteLine(val);
-            }
-
-            File.WriteAllText("output.csv", sb.ToString());
 
             var solution = 0L;
             var iter = 1L;
