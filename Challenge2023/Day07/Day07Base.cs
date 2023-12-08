@@ -1,4 +1,5 @@
 ﻿using Challenge2023.Common;
+using Challenge2023.Day07.Comparers;
 using System.Collections.Frozen;
 
 #nullable disable
@@ -28,12 +29,7 @@ namespace Challenge2023.Day07
                 Hands[data[0]] = (long.Parse(data[1]), rank, power);
             }
 
-            Hands = Hands.OrderBy(x => x.Value.rank)
-                         .ThenBy(x => x.Value.power[0])
-                         .ThenBy(x => x.Value.power[1])
-                         .ThenBy(x => x.Value.power[2])
-                         .ThenBy(x => x.Value.power[3])
-                         .ThenBy(x => x.Value.power[4])
+            Hands = Hands.OrderBy(x => x.Value, new MyVerySpecificDay7TupleComparer())
                          .ToDictionary();
         }
 
