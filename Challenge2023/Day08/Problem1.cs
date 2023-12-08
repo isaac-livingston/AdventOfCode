@@ -10,11 +10,13 @@ namespace Challenge2023.Day08
 
             stopwatch.Start();
 
-            //fun things
+            LoadData(inputs);
+
+            var solution = TraverseMap((x) => x != "ZZZ", "AAA");
 
             stopwatch.Stop();
 
-
+            ConsoleTools.PrintSolutionMessage(solution);
             ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
         }
     }

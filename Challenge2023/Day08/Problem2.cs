@@ -7,14 +7,16 @@ namespace Challenge2023.Day08
         public override void RunSolution()
         {
             var inputs = GetInputs(folder: "day08");
-            
+
             stopwatch.Start();
 
-            //fun things
+            LoadData(inputs);
+
+            var solution = Problem2Doer();
 
             stopwatch.Stop();
 
-            
+            ConsoleTools.PrintSolutionMessage($"{solution}");
             ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
         }
     }
