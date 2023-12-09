@@ -14,7 +14,7 @@ namespace Challenge2023.Day09
             }
         }
 
-        protected void ExtendMeasurements()
+        protected void ExtendMeasurements(bool intoThePast = false)
         {
             for (int m = 0; m < Measurements.Keys.Count; m++)
             {
@@ -25,7 +25,7 @@ namespace Challenge2023.Day09
                     var set1 = set.Last();
                     var calc = new int[set1.Length - 1];
 
-                    for (int i = 1; i < set1.Length - 1; i++)
+                    for (int i = 0; i < set1.Length - 1; i++)
                     {
                         calc[i] = set1[i + 1] - set1[i];
                     }
@@ -38,7 +38,7 @@ namespace Challenge2023.Day09
 
                         for (int s = set.Count - 1; s >= 0; s--)
                         {
-                            extensions[s] = set.ElementAt(s).Last();
+                            extensions[s] = intoThePast ? set.ElementAt(s).First() : set.ElementAt(s).Last();
                         }
 
                         set.Add(extensions);
@@ -47,12 +47,6 @@ namespace Challenge2023.Day09
                     }
                 }
             }
-        }
-
-        protected long GetProblem1Solution()
-        {
-            var solution = Measurements.Values.Select(x => x.Last().Sum(y => y)).Sum();
-            return solution;
         }
     }
 }
