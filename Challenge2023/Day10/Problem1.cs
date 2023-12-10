@@ -10,7 +10,11 @@ namespace Challenge2023.Day10
 
             stopwatch.Start();
 
-            var solution = 0L;
+            LoadData(inputs);
+
+            var runFromEast = TraverseNetwork(comingInFrom: EAST);
+
+            var solution = runFromEast.Values.ElementAt(runFromEast.Count / 2);
 
             stopwatch.Stop();
 

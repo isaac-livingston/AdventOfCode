@@ -8,9 +8,29 @@ namespace Challenge2023.Day10
         {
             var inputs = GetInputs(folder: "day10");
 
+            //inputs = [
+            //    ".....",
+            //    ".S-7.",
+            //    ".|.|.",
+            //    ".L-J.",
+            //    "....."
+            //];
+
+            //inputs = [
+            //    "7-F7-",
+            //    ".FJ|7",
+            //    "SJLL7",
+            //    "|F--J",
+            //    "LJ.LJ"
+            //];
+
             stopwatch.Start();
 
-            var solution = 0L;
+            LoadData(inputs);
+
+            var runFromEast = TraverseNetwork(comingInFrom: EAST);
+
+            var solution = runFromEast.Values.ElementAt(runFromEast.Count / 2);
 
             stopwatch.Stop();
 
