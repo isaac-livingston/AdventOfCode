@@ -77,7 +77,7 @@ namespace Challenge2023.Day10
             NORTH => SOUTH,
             WEST => EAST,
             SOUTH => NORTH,
-            _ => throw new InvalidOperationException("Invalid starting direction")
+            _ => throw new InvalidOperationException("Invalid direction")
         };
 
         protected Dictionary<int[], long> TraverseNetwork(int comingInFrom)
@@ -86,7 +86,9 @@ namespace Challenge2023.Day10
             var col = StartingCell[1];
 
             var steps = 0L;
-            var record = new Dictionary<int[], long>();
+            var record = new Dictionary<int[], long> { 
+                { [row, col], 0 } 
+            };
             while (true)
             {
                 var cell = Grid[row][col];
@@ -100,7 +102,6 @@ namespace Challenge2023.Day10
 
                 if (row == StartingCell[0] && col == StartingCell[1])
                 {
-
                     break;
                 }
                 steps++;
