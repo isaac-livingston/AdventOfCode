@@ -29,31 +29,6 @@ namespace Challenge2023.Day10
 
         protected int[][] Grid = [];
 
-        private string[] GetExpandedInputs(string[] inputs)
-        {
-            var expandedInputs = new List<string>();
-
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                var input = inputs[i];
-                var sb = new StringBuilder();
-                foreach (char ch in input)
-                {
-                    sb.Append(ch);
-                    sb.Append('-');
-                    sb.Append('-');
-                }
-
-                var expandedInput = sb.ToString();
-
-                expandedInputs.Add(expandedInput);
-                expandedInputs.Add("".PadLeft(expandedInput.Length, '|'));
-                expandedInputs.Add("".PadLeft(expandedInput.Length, '|'));
-            }
-
-            return [.. expandedInputs];
-        }
-
         protected void LoadData(string[] inputs)
         {
             //inputs = expandForProblem2 ? GetExpandedInputs(inputs) : inputs;
@@ -155,6 +130,31 @@ namespace Challenge2023.Day10
         //    }
 
         //    return inside;
+        //}
+
+        //private string[] GetExpandedInputs(string[] inputs)
+        //{
+        //    var expandedInputs = new List<string>();
+
+        //    for (int i = 0; i < inputs.Length; i++)
+        //    {
+        //        var input = inputs[i];
+        //        var sb = new StringBuilder();
+        //        foreach (char ch in input)
+        //        {
+        //            sb.Append(ch);
+        //            sb.Append('-');
+        //            sb.Append('-');
+        //        }
+
+        //        var expandedInput = sb.ToString();
+
+        //        expandedInputs.Add(expandedInput);
+        //        expandedInputs.Add("".PadLeft(expandedInput.Length, '|'));
+        //        expandedInputs.Add("".PadLeft(expandedInput.Length, '|'));
+        //    }
+
+        //    return [.. expandedInputs];
         //}
     }
 }
