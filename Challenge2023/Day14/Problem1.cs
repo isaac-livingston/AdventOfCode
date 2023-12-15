@@ -1,8 +1,8 @@
 ﻿using Challenge2023.Common;
 
-namespace Challenge2023.Day13;
+namespace Challenge2023.Day14;
 
-internal class Problem2 : DayBase
+internal class Problem1 : DayBase
 {
     public override void RunSolution()
     {
@@ -18,3 +18,4 @@ internal class Problem2 : DayBase
         ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }
+

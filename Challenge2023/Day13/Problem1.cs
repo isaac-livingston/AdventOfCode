@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Challenge2023.Common;
 
-namespace Challenge2023.Day13
+namespace Challenge2023.Day13;
+
+internal class Problem1 : DayBase
 {
-    internal class Problem1 : Day13Base
+    public override void RunSolution()
     {
-        public override void RunSolution()
-        {
-            throw new NotImplementedException();
-        }
+        var inputs = GetInputs(folder: DAY_FOLDER);
+
+        stopwatch.Start();
+
+        var solution = 0L;
+
+        stopwatch.Stop();
+
+        ConsoleTools.PrintSolutionMessage($"{solution}");
+        ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }
+
