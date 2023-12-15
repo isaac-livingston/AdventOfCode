@@ -1,25 +1,25 @@
 ﻿using Challenge2023.Common;
 
-namespace Challenge2023.Day10
+namespace Challenge2023.Day10;
+
+internal class Problem1 : DayBase
 {
-    internal class Problem1 : Day10Base
+    public override void RunSolution()
     {
-        public override void RunSolution()
-        {
-            var inputs = GetInputs(folder: "day10");
+        var inputs = GetInputs(folder: DAY_FOLDER);
 
-            stopwatch.Start();
+        stopwatch.Start();
 
-            LoadData(inputs);
+        LoadData(inputs);
 
-            var runFromEast = TraverseNetwork(comingInFrom: EAST);
+        var runFromEast = TraverseNetwork(comingInFrom: EAST);
 
-            var solution = runFromEast.Values.ElementAt((runFromEast.Count / 2) + 1);
+        var solution = runFromEast.Values.ElementAt((runFromEast.Count / 2) + 1);
 
-            stopwatch.Stop();
+        stopwatch.Stop();
 
-            ConsoleTools.PrintSolutionMessage($"{solution}");
-            ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
-        }
+        ConsoleTools.PrintSolutionMessage($"{solution}");
+        ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }
+

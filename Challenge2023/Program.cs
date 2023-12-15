@@ -4,8 +4,8 @@ using System.Reflection;
 string? assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 string? defaultNameSpace = assemblyName;
 
-int day = 13;
-int problem = 1;
+int day = 10;
+int problem = 2;
 
 if (args.Length == 2)
 {
