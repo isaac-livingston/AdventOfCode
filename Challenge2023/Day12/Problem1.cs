@@ -10,7 +10,7 @@ internal class Problem1 : DayBase
 
         stopwatch.Start();
 
-        var solution = 0L;
+        var solution = inputs.Sum(CountArrangements);
 
         stopwatch.Stop();
 
