@@ -10,7 +10,14 @@ internal class Problem2 : DayBase
 
         stopwatch.Start();
 
+        LoadData(inputs, expansionFactor: 1000000 - 1);
+
         var solution = 0L;
+
+        foreach (var gpair in Universe.GalacticPairs)
+        {
+            solution += Universe.CalculateShortestPathOfGalaticPair(gpair);
+        }
 
         stopwatch.Stop();
 

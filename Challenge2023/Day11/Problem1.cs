@@ -8,19 +8,6 @@ internal class Problem1 : DayBase
     {
         var inputs = GetInputs(folder: DAY_FOLDER);
 
-        //inputs = [
-        //    "...#......",
-        //    ".......#..",
-        //    "#.........",
-        //    "..........",
-        //    "......#...",
-        //    ".#........",
-        //    ".........#",
-        //    "..........",
-        //    ".......#..",
-        //    "#...#....."
-        //];
-
         stopwatch.Start();
 
         LoadData(inputs, expansionFactor: 1);
