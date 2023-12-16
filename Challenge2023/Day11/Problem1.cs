@@ -8,9 +8,29 @@ internal class Problem1 : DayBase
     {
         var inputs = GetInputs(folder: DAY_FOLDER);
 
+        //inputs = [
+        //    "...#......",
+        //    ".......#..",
+        //    "#.........",
+        //    "..........",
+        //    "......#...",
+        //    ".#........",
+        //    ".........#",
+        //    "..........",
+        //    ".......#..",
+        //    "#...#....."
+        //];
+
         stopwatch.Start();
 
+        LoadData(inputs, expansionFactor: 1);
+
         var solution = 0L;
+
+        foreach (var gpair in Universe.GalacticPairs)
+        {
+            solution += Universe.CalculateShortestPathOfGalaticPair(gpair);
+        }
 
         stopwatch.Stop();
 
