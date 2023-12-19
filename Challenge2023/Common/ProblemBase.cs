@@ -9,9 +9,14 @@ namespace Challenge2023.Common
 
         protected readonly Stopwatch stopwatch = new();
 
-        public virtual string[] GetInputs(string folder, string filename = "input.txt")
+        public virtual string[] GetInputs(string folder, bool useTest = false, string rootFilename = "input.txt")
         {
-            var records = File.ReadAllLines(@$"{folder}\{filename}", Encoding.UTF8);
+            if (useTest)
+            {
+                rootFilename = "test-" + rootFilename;
+            }
+
+            var records = File.ReadAllLines(@$"{folder}\{rootFilename}", Encoding.UTF8);
 
             return records;
         }
