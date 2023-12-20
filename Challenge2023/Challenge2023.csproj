@@ -64,7 +64,7 @@
 		<None Update="Day20\test-input.txt">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Day20\xinput.txt">
+		<None Update="Day20\input.txt">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Day18\test-input.txt">
