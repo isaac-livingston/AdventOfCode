@@ -6,11 +6,13 @@ internal class Problem2 : DayBase
 {
     public override void RunSolution()
     {
-        var inputs = GetInputs(folder: DAY_FOLDER);
+        var inputs = GetInputs(folder: DAY_FOLDER, useTest: false);
 
         stopwatch.Start();
 
-        var solution = 0L;
+        LoadData(inputs, solvePart2: true);
+
+        var solution = ShoeLaceAreaCalculator() + Perimeter / 2 + 1;
 
         stopwatch.Stop();
 

@@ -6,13 +6,13 @@ internal class Problem1 : DayBase
 {
     public override void RunSolution()
     {
-        var inputs = GetInputs(folder: DAY_FOLDER, useTest: true);
+        var inputs = GetInputs(folder: DAY_FOLDER, useTest: false);
 
         stopwatch.Start();
 
         LoadData(inputs);
 
-        var solution = ComputeTrench();// Lagoon.Queue.Count;
+        var solution = ShoeLaceAreaCalculator() + Perimeter / 2 + 1;
 
         stopwatch.Stop();
 

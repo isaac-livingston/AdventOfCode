@@ -13,23 +13,23 @@ internal class Problem1 : DayBase
 
         LoadData(inputs);
 
-        var sb = new StringBuilder();
+        //var sb = new StringBuilder();
 
-        foreach (var pattern in Patterns)
-        {
-            for (int r = 0; r < pattern.HorizontalLines.Length; r++)
-            {
-                sb.AppendLine(pattern.HorizontalLines[r]);
-            }
-            sb.AppendLine();
-            for (int c = 0; c < pattern.VerticalLines.Length; c++)
-            {
-                sb.AppendLine(pattern.VerticalLines[c]);
-            }
-            sb.AppendLine();
-        }
-        var path = Path.Combine(@"C:\aoc", "mirrors.txt");
-        File.WriteAllText(path, sb.ToString());
+        //foreach (var pattern in Patterns)
+        //{
+        //    for (int r = 0; r < pattern.HorizontalLines.Length; r++)
+        //    {
+        //        sb.AppendLine(pattern.HorizontalLines[r]);
+        //    }
+        //    sb.AppendLine();
+        //    for (int c = 0; c < pattern.VerticalLines.Length; c++)
+        //    {
+        //        sb.AppendLine(pattern.VerticalLines[c]);
+        //    }
+        //    sb.AppendLine();
+        //}
+        //var path = Path.Combine(@"C:\aoc", "mirrors.txt");
+        //File.WriteAllText(path, sb.ToString());
 
         var solution = AnalyzePatterns();
 

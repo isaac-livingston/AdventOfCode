@@ -11,7 +11,7 @@ internal abstract class DayBase : ProblemBase
     protected Lagoon Lagoon { get; set; } = new Lagoon();
     protected long Perimeter { get; set; } = 1;
 
-    protected void LoadData(string[] inputs)
+    protected void LoadData(string[] inputs, bool solvePart2 = false)
     {
         var node = Origin;
         Lagoon.Queue.Enqueue(node);
@@ -23,16 +23,16 @@ internal abstract class DayBase : ProblemBase
                                 .Replace(")", null)
                                 .Split(' ', SPLIT_OPTS);
 
-            node = MapData(node, data);
+            node = MapData(node, data, solvePart2);
         }
     }
 
-    private void LogNode(Node? node)
+    private static long ConvertHexToLong(string hex)
     {
-        Console.WriteLine($"X:{node.X} Y:{node.X} D:{node.Direction} C:{node.ColorHex}");
+        return Convert.ToInt64(hex, 16);
     }
 
-    private Node? MapData(Node? origin, string[] data)
+    private Node? MapData(Node? origin, string[] data, bool solvePart2)
     {
         if (origin == null)
         {
@@ -40,47 +40,51 @@ internal abstract class DayBase : ProblemBase
         }
 
         var direction = data[0];
-        var steps = int.Parse(data[1]);
+        var steps = long.Parse(data[1]);
         var color = data[2];
 
-        Node? node = null;
-
-        for (var i = 0; i < steps; i++)
+        if (solvePart2)
         {
-            var locX = origin.X;
-            var locY = origin.Y;
-
-            if (direction == "L")
+            steps = ConvertHexToLong(color[..5]);
+            direction = color.Last() switch
             {
-                locX = origin.X + i;
-            }
-            else if (direction == "R")
-            {
-                locX = origin.X - i;
-            }
-            else if (direction == "U")
-            {
-                locY = origin.Y + i;
-            }
-            else if (direction == "D")
-            {
-                locY = origin.Y - i;
-            }
-
-            node = new Node(direction, steps - i, color, locX, locY);
-            Lagoon.Queue.Enqueue(node);
-            Perimeter++;
+                '0' => "R",
+                '1' => "D",
+                '2' => "L",
+                '3' => "U",
+                _ => throw new ArgumentException("Invalid direction.")
+            };
         }
+
+        var offsetX = origin.X;
+        var offsetY = origin.Y;
+
+        if (direction == "L")
+        {
+            offsetX = origin.X + steps;
+        }
+        else if (direction == "R")
+        {
+            offsetX = origin.X - steps;
+        }
+        else if (direction == "U")
+        {
+            offsetY = origin.Y + steps;
+        }
+        else if (direction == "D")
+        {
+            offsetY = origin.Y - steps;
+        }
+
+        var node = new Node(direction, steps, color, offsetX, offsetY);
+
+        Lagoon.Queue.Enqueue(node);
+        Perimeter += steps;
 
         return node;
     }
 
-    static long Determinant(long x1, long y1, long x2, long y2)
-    {
-        return x1 * y2 - x2 * y1;
-    }
-
-    protected double ComputeTrench()
+    protected double ShoeLaceAreaCalculator()
     {
         var points = Lagoon.Queue.ToList();
 
@@ -90,15 +94,14 @@ internal abstract class DayBase : ProblemBase
         }
 
         double area = 0;
-        //int j = points.Count - 1; // The last vertex is the 'previous' one to the first
+        int j = points.Count - 1; // The last vertex is the 'previous' one to the first
 
-        for (int i = 0; i < points.Count - 1; i++)
+        for (int i = 0; i < points.Count; i++)
         {
-            area += Determinant(points[i].X, points[i].Y, points[i + 1].X, points[i + 1].Y);
-            //area += (points[j].X + points[i].X) * (points[j].Y - points[i].Y);
-            //j = i;  // j is previous vertex to i
+            area += (points[j].X + points[i].X) * (points[j].Y - points[i].Y);
+            j = i;  // j is previous vertex to i
         }
 
-        return (Math.Abs(area) + Perimeter) / 2 + 1;
+        return Math.Abs(area) / 2;
     }
 }
