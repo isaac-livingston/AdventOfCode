@@ -1,44 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Challenge2023.Day20.Models
+﻿namespace Challenge2023.Day20.Models
 {
     internal class Conjunction : BaseComponent
     {
-        private Dictionary<string, int> Memory { get; } = [];
+        private Dictionary<string, int> InputMemory { get; } = [];
 
-        public void RegisterComponentWithMemory(string id)
+        public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
         {
-            Memory.Add(id, LOW_PULSE);
-        }
-
-        public override void ReceivePulse(int pulse, string? from = null)
-        {
-            ArgumentNullException.ThrowIfNull(from);
-
-            if (!Memory.ContainsKey(from))
+            if (!InputMemory.ContainsKey(fromId))
             {
-                throw new ArgumentException($"Component with id {from} is not registered with this conjunction.");
+                throw new Exception("Component not registered");
             }
 
-            Memory[from] = pulse;
+            InputMemory[fromId] = pulse;
 
-            if (Memory.All(x => x.Value == HIGH_PULSE))
+            var nextPulse = 0;
+            
+            if (InputMemory.Values.All(p => p == HIGH_PULSE))
             {
-                
+                nextPulse = LOW_PULSE;
+                LowPulseCount++;
             }
             else
             {
+                nextPulse = HIGH_PULSE;
+                HighPulseCount++;
+            }
 
+            for (var c = 0; c < ConnectedComponents.Count; c++)
+            {
+                var component = ConnectedComponents[c]; 
+                actions.Enqueue(() => component.ReceivePulse(nextPulse, Id, actions));
             }
         }
 
-        public override void SendPulses()
+        public void RegisterInputComponentWithMemory(BaseComponent component)
         {
-            throw new NotImplementedException();
+            InputMemory.Add(component.Id, LOW_PULSE);
         }
     }
 }

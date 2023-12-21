@@ -12,7 +12,14 @@ internal class Problem1 : DayBase
 
         LoadData(inputs);
 
-        var solution = 0L;
+        (long highs, long lows) solution = (0, 0);
+
+        for (var i = 0; i <2; i++)
+        {
+            var (highs, lows) = Machine.CycleMachine(0);
+            solution.highs += highs;
+            solution.lows += lows;
+        }
 
         stopwatch.Stop();
 

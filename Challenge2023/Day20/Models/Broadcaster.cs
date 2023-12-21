@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Challenge2023.Day20.Models
+﻿namespace Challenge2023.Day20.Models
 {
     internal class Broadcaster : BaseComponent
     {
-        public override void ReceivePulse(int pulse, string? from = null)
+        public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
         {
-            throw new NotImplementedException();
-        }
+            if (pulse == HIGH_PULSE)
+            {
+                HighPulseCount++;
+            }
+            else
+            {
+                LowPulseCount++;
+            }
 
-        public override void SendPulses()
-        {
-            throw new NotImplementedException();
+            for (var c = 0; c < ConnectedComponents.Count; c++)
+            {
+                var component = ConnectedComponents[c];
+                actions.Enqueue(() => component.ReceivePulse(pulse, Id, actions));
+            }
         }
     }
 }
