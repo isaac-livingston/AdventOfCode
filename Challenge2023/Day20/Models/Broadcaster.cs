@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Challenge2023.Day20.Models
 {
-    internal class FlipFlop : BaseComponent
+    internal class Broadcaster : BaseComponent
     {
-        public bool On { get; private set; } = false;
-
         public override void ReceivePulse(int pulse, string? from = null)
         {
             throw new NotImplementedException();
