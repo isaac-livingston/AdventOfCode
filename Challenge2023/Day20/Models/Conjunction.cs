@@ -6,10 +6,21 @@
 
         public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
         {
+            if (pulse == HIGH_PULSE)
+            {
+                HighPulseCount++;
+            }
+            else
+            {
+                LowPulseCount++;
+            }
+
             if (!InputMemory.ContainsKey(fromId))
             {
                 throw new Exception("Component not registered");
             }
+
+            //Console.WriteLine($"{fromId} -> {(pulse == HIGH_PULSE ? "H" : "L")} -> {Id}");
 
             InputMemory[fromId] = pulse;
 
@@ -18,12 +29,10 @@
             if (InputMemory.Values.All(p => p == HIGH_PULSE))
             {
                 nextPulse = LOW_PULSE;
-                LowPulseCount++;
             }
             else
             {
                 nextPulse = HIGH_PULSE;
-                HighPulseCount++;
             }
 
             for (var c = 0; c < ConnectedComponents.Count; c++)

@@ -46,7 +46,19 @@ internal abstract class DayBase : ProblemBase
             }
         }
 
-        foreach(var k in hookups.Keys)
+        foreach (var k in hookups.Keys)
+        {
+            foreach(var h in hookups[k])
+            {
+                if (!Machine.Components.ContainsKey(h))
+                {
+                    Machine.Components[h] = new Outputer() { Id = h };
+                    break;
+                }
+            }
+        }
+
+        foreach (var k in hookups.Keys)
         {
             var comp = Machine.Components[k];
 

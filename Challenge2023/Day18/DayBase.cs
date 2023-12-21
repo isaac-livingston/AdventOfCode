@@ -86,22 +86,25 @@ internal abstract class DayBase : ProblemBase
 
     protected double ShoeLaceAreaCalculator()
     {
-        var points = Lagoon.Queue.ToList();
+        var points = Lagoon.Queue.Select(n => (n.X, n.Y)).ToList();
 
-        if (points.Count < 3)
-        {
-            throw new ArgumentException("At least three points are required to calculate area.");
-        }
+        var result = Shoelace.CalculateArea(points);
 
-        double area = 0;
-        int j = points.Count - 1; // The last vertex is the 'previous' one to the first
+        return result;
+        //if (points.Count < 3)
+        //{
+        //    throw new ArgumentException("At least three points are required to calculate area.");
+        //}
 
-        for (int i = 0; i < points.Count; i++)
-        {
-            area += (points[j].X + points[i].X) * (points[j].Y - points[i].Y);
-            j = i;  // j is previous vertex to i
-        }
+        //double area = 0;
+        //int j = points.Count - 1; // The last vertex is the 'previous' one to the first
 
-        return Math.Abs(area) / 2;
+        //for (int i = 0; i < points.Count; i++)
+        //{
+        //    area += (points[j].X + points[i].X) * (points[j].Y - points[i].Y);
+        //    j = i;  // j is previous vertex to i
+        //}
+
+        //return Math.Abs(area) / 2;
     }
 }

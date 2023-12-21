@@ -1,6 +1,6 @@
 ﻿namespace Challenge2023.Day20.Models
 {
-    internal class Broadcaster : BaseComponent
+    internal class Outputer : BaseComponent
     {
         public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
         {
@@ -10,16 +10,14 @@
             }
             else
             {
+                FirstLowToOutputterFound = true;
                 LowPulseCount++;
+                Console.WriteLine($"OUTPUTTER [{Id}]: H:{HighPulseCount} L:{LowPulseCount}");
             }
 
             //Console.WriteLine($"{fromId} -> {(pulse == HIGH_PULSE ? "H" : "L")} -> {Id}");
 
-            for (var c = 0; c < ConnectedComponents.Count; c++)
-            {
-                var component = ConnectedComponents[c];
-                actions.Enqueue(() => component.ReceivePulse(pulse, Id, actions));
-            }
+            //Console.WriteLine($"OUTPUTTER [{Id}]: H:{HighPulseCount} L:{LowPulseCount}");
         }
     }
 }

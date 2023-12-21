@@ -8,6 +8,8 @@
         public const int HIGH_PULSE = 1;
         public const int LOW_PULSE = 0;
 
+        public static bool FirstLowToOutputterFound { get; set; } = false;
+
         public required string Id { get; set; }
 
         public List<BaseComponent> ConnectedComponents { get; } = [];

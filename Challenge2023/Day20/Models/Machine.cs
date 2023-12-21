@@ -8,19 +8,17 @@
 
         public (long highs, long lows) CycleMachine(int startPulse)
         {
-            var newActions = new Queue<Action>();
-
-            Components["broadcaster"].ReceivePulse(startPulse, "broadcaster", newActions);
-
-            foreach (var action in newActions)
-            {
-                Actions.Enqueue(action);
-            }
+            Components["broadcaster"].ReceivePulse(startPulse, "button", Actions);
 
             while (Actions.Count > 0)
             {
                 var action = Actions.Dequeue();
                 action();
+
+                if (BaseComponent.FirstLowToOutputterFound)
+                {
+                    break;
+                }
             }
 
             var l = BaseComponent.LowPulseCount;
