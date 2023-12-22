@@ -1,4 +1,6 @@
-﻿namespace Challenge2023.Common
+﻿using System.Diagnostics;
+
+namespace Challenge2023.Common
 {
     internal class ConsoleTools
     {
@@ -37,6 +39,19 @@
             Console.Write(duration);
             Console.ResetColor();
             Console.Write(" " + unit);
+        }
+
+        public static void PrintIterationMessage(string label, double cycleCount, Stopwatch stopwatch)
+        {
+            Console.Write("... ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write($"{cycleCount:E3}");
+            Console.ResetColor();
+            Console.Write($" {label} @ ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{stopwatch.Elapsed.TotalNanoseconds / cycleCount / 1000:N3}");
+            Console.ResetColor();
+            Console.Write($" μs/per \n");
         }
     }
 }

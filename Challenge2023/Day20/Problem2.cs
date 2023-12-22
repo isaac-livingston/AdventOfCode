@@ -7,15 +7,18 @@ internal class Problem2 : DayBase
 {
     public override void RunSolution()
     {
+        Console.WriteLine("Reading inputs...");
         var inputs = GetInputs(folder: DAY_FOLDER, useTest: false);
 
         stopwatch.Start();
 
+        Console.WriteLine("Building the machine...");
         BuildMachine(inputs);
 
         var solution = 0L;
-        var iter = 10000000;
+        var iter = 1000000;
 
+        Console.WriteLine($"Pushing the button, reporting every {iter:N0} pushes...");
         while (true)
         {
             _ = Machine.PusbButton();
@@ -23,7 +26,7 @@ internal class Problem2 : DayBase
 
             if (solution % iter == 0)
             {
-                ConsoleTools.PrintDurationMessage($"ITER: {solution / iter:N0}x10^7, {(stopwatch.Elapsed.TotalNanoseconds / solution):N0} ns/push, {stopwatch.ElapsedMilliseconds:N0}");
+                ConsoleTools.PrintIterationMessage("pushes", solution, stopwatch);
             }
         }
 
