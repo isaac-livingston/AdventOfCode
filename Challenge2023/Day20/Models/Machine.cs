@@ -1,30 +1,37 @@
-﻿namespace Challenge2023.Day20.Models
+﻿using System.Collections.Frozen;
+
+namespace Challenge2023.Day20.Models
 {
-    internal class Machine
+    internal class Machine(Dictionary<string, BaseComponent> components)
     {
-        public Dictionary<string, BaseComponent> Components { get; } = [];
+        public FrozenDictionary<string, BaseComponent> Components { get; } = components?.ToFrozenDictionary() 
+                                                                             ?? throw new ArgumentNullException(nameof(components));
 
         public Queue<Action> Actions { get; private set; } = new Queue<Action>();
 
-        public (long highs, long lows) CycleMachine(int startPulse)
+        private readonly Broadcaster _broadcaster = components?.Values.Where(c => c is Broadcaster)
+                                                                      .Select(c => c as Broadcaster)
+                                                                      .Single() ?? throw new ArgumentNullException(nameof(components));
+
+        public (long highs, long lows) PusbButton()
         {
-            Components["broadcaster"].ReceivePulse(startPulse, "button", Actions);
-
-            while (Actions.Count > 0)
-            {
-                var action = Actions.Dequeue();
-                action();
-
-                if (BaseComponent.FirstLowToOutputterFound)
-                {
-                    break;
-                }
-            }
+            CycleMachine(BaseComponent.LOW_PULSE, from: "button");
 
             var l = BaseComponent.LowPulseCount;
             var h = BaseComponent.HighPulseCount;
 
             return (h, l);
+        }
+
+        private void CycleMachine(int pulse, string from)
+        {
+            _broadcaster.ReceivePulse(pulse, from, Actions);
+
+            while (Actions.Count > 0)
+            {
+                var action = Actions.Dequeue();
+                action();
+            }
         }
     }
 }

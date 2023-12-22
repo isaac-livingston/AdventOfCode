@@ -4,22 +4,9 @@
     {
         public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
         {
-            if (pulse == HIGH_PULSE)
-            {
-                HighPulseCount++;
-            }
-            else
-            {
-                LowPulseCount++;
-            }
+            RegisterPulse(pulse);
 
-            //Console.WriteLine($"{fromId} -> {(pulse == HIGH_PULSE ? "H" : "L")} -> {Id}");
-
-            for (var c = 0; c < ConnectedComponents.Count; c++)
-            {
-                var component = ConnectedComponents[c];
-                actions.Enqueue(() => component.ReceivePulse(pulse, Id, actions));
-            }
+            ScheduleActions(pulse, actions);
         }
     }
 }

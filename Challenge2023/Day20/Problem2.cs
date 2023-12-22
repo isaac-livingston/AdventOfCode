@@ -11,14 +11,14 @@ internal class Problem2 : DayBase
 
         stopwatch.Start();
 
-        LoadData(inputs);
+        BuildMachine(inputs);
 
         var solution = 0L;
         var iter = 10000000;
 
-        while (!BaseComponent.FirstLowToOutputterFound)
+        while (true)
         {
-            _ = Machine.CycleMachine(0);
+            _ = Machine.PusbButton();
             solution++;
 
             if (solution % iter == 0)

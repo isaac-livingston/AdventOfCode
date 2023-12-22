@@ -7,72 +7,66 @@ internal abstract class DayBase : ProblemBase
 {
     protected const string DAY_FOLDER = "Day20";
 
-    protected Machine Machine { get; } = new Machine();
+    protected Machine? Machine { get; private set; }
 
-    protected void LoadData(string[] inputs)
+    protected void BuildMachine(string[] inputs)
     {
-        var comps = inputs.Select(i => i.Split("->", SPLIT_OPTS)).Select(i => new { Id = i[0], Type = i[1].Split(',', SPLIT_OPTS) }).ToList();
 
-        Dictionary<string, string[]> hookups = [];
+        var components = inputs.Select(i => i.Split("->", SPLIT_OPTS))
+                               .Select(i => new { Id = i[0], ConnectedComponentIds = i[1].Split(',', SPLIT_OPTS) })
+                               .ToList();
 
-        foreach (var comp in comps)
+        Dictionary<string, string[]> connectedComponentMap = [];
+
+        Dictionary<string, BaseComponent> machineParts = [];
+
+        foreach (var component in components)
         {
-            var kind = comp.Id[0];
-            var compKey = comp.Id[1..];
-            
-            if (kind == 'b')
-            {
-                compKey = "b" + compKey;
-            }
+            var kind = component.Id[0];
 
-            hookups[compKey] = comp.Type;
+            var compKey = component.Id[1..];
 
-            switch (kind)
+            connectedComponentMap[compKey] = component.ConnectedComponentIds;
+
+            machineParts[compKey] = kind switch
             {
-                case '&':
-                    var conj = new Conjunction() { Id = compKey};
-                    Machine.Components[compKey] = conj;
-                    break;
-                case '%':
-                    var flip = new FlipFlop() { Id = compKey };
-                    Machine.Components[compKey] = flip;
-                    break;
-                case 'b':
-                    var broa = new Broadcaster() { Id = compKey };
-                    Machine.Components[compKey] = broa;
-                    break;
-                default:
-                    throw new Exception("Unknown component type");
-            }
+                '&' => new Conjunction() { Id = compKey },
+                '%' => new FlipFlop() { Id = compKey },
+                'b' => new Broadcaster() { Id = compKey },
+                _ => throw new Exception("Unknown component type"),
+            };
         }
 
-        foreach (var k in hookups.Keys)
+        // identify the outputter
+        foreach (var k in connectedComponentMap.Keys)
         {
-            foreach(var h in hookups[k])
+            foreach(var c in connectedComponentMap[k])
             {
-                if (!Machine.Components.ContainsKey(h))
+                if (!machineParts.ContainsKey(c))
                 {
-                    Machine.Components[h] = new Outputer() { Id = h };
+                    machineParts[c] = new Outputer() { Id = c };
                     break;
                 }
             }
         }
 
-        foreach (var k in hookups.Keys)
+        foreach (var k in connectedComponentMap.Keys)
         {
-            var comp = Machine.Components[k];
+            var component = machineParts[k];
 
-            foreach(var h in hookups[k])
+            foreach(var connectedComponentId in connectedComponentMap[k])
             {
-                var hook = Machine.Components[h];
+                var connectedComponent = machineParts[connectedComponentId];
 
-                comp.ConnectedComponents.Add(hook);
+                component.ConnectedComponents = [.. component.ConnectedComponents, connectedComponent];
 
-                if (hook is Conjunction conj)
+                if (connectedComponent is Conjunction conjunction)
                 {
-                    conj.RegisterInputComponentWithMemory(comp);
+                    conjunction.RegisterInputComponentWithMemory(component);
                 }   
             }
-        }   
+        }
+
+        Machine = new Machine(machineParts);
     }
 }

@@ -11,16 +11,16 @@ internal class Problem1 : DayBase
 
         stopwatch.Start();
 
-        LoadData(inputs);
+        BuildMachine(inputs);
+
+        (long highs, long lows) solution = (0, 0);
 
         for (var i = 0; i < 1000; i++)
         {
-            _ = Machine.CycleMachine(0);
+            solution = Machine.PusbButton();
         }
 
         stopwatch.Stop();
-
-        (long highs, long lows) solution = (BaseComponent.HighPulseCount, BaseComponent.LowPulseCount);
 
         ConsoleTools.PrintSolutionMessage($"H:{solution.highs} L:{solution.lows}");
         ConsoleTools.PrintSolutionMessage($"T:{solution.highs  * solution.lows}");

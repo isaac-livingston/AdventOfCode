@@ -6,36 +6,20 @@
 
         public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
         {
-            //Console.WriteLine($"{fromId} -> {(pulse == HIGH_PULSE ? "H" : "L")} -> {Id}");
+            RegisterPulse(pulse);
 
             if (pulse == HIGH_PULSE)
             {
-                HighPulseCount ++;
                 return;
             }
-            else
-            {
-                LowPulseCount ++;
-            }
 
-            var nextPulse = 0;
-            
-            if (On)
-            {
-                nextPulse = LOW_PULSE;
-            }
-            else
-            {
-                nextPulse = HIGH_PULSE;
-            }
+            var nextPulse = On 
+                          ? LOW_PULSE 
+                          : HIGH_PULSE;
 
             On = !On;
 
-            for (var c = 0; c < ConnectedComponents.Count; c++)
-            {
-                var comp = ConnectedComponents[c];
-                actions.Enqueue(() => comp.ReceivePulse(nextPulse, Id, actions));
-            }
+            ScheduleActions(nextPulse, actions);
         }
     }
 }
