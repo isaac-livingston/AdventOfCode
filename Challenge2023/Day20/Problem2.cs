@@ -65,30 +65,28 @@ internal class Problem2 : DayBase
         }
 
         var solution = 0L;
-        var observationResults = new List<object>();
-        while (true)
+
+        Console.WriteLine("");
+        Console.WriteLine("Pushing button until observations are complete... hope it doesn't take 17 years... brb");
+
+        (bool complete, List<object> data) observations = (false, []);
+        while (!observations.complete)
         {
             _ = Machine.PusbButton();
+            observations = observer.Observe();
+        }
 
-            var (observedAll, results) = observer.Observe();
-
-            if (observedAll)
-            {
-                Console.WriteLine("");
-                Console.WriteLine($"All observation complete! [{string.Join(", ", results)}]");
-                solution = 1L;
-                foreach (var obs in results)
-                {
-                    solution *= (long)obs;
-                }
-                observationResults = results;
-                break;
-            }
+        Console.WriteLine("");
+        Console.WriteLine($"All observations complete! [{string.Join(", ", observations.data)}]");
+        solution = 1L;
+        foreach (var obs in observations.data)
+        {
+            solution *= (long)obs;
         }
 
         stopwatch.Stop();
 
-        ConsoleTools.PrintSolutionMessage($"{solution} (LCM = {string.Join(" * ", observationResults)})");
+        ConsoleTools.PrintSolutionMessage($"{solution} (LCM = {string.Join(" * ", observations.data)})");
         ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }

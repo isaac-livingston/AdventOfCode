@@ -29,7 +29,7 @@ internal class Problem1 : DayBase
         stopwatch.Stop();
 
         ConsoleTools.PrintSolutionMessage($"Pulses - High:{solution.highs}, Low:{solution.lows}");
-        ConsoleTools.PrintSolutionMessage($"{solution.highs  * solution.lows} (High Pulses * Low Pulses)");
+        ConsoleTools.PrintSolutionMessage($"{solution.highs * solution.lows} (High Pulses * Low Pulses)");
         ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }
