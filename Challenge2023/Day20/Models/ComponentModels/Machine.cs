@@ -1,6 +1,6 @@
 ﻿using System.Collections.Frozen;
 
-namespace Challenge2023.Day20.Models
+namespace Challenge2023.Day20.Models.ComponentModels
 {
     internal class Machine(Dictionary<string, BaseComponent> components)
     {

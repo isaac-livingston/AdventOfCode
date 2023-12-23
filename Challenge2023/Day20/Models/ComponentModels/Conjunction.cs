@@ -1,4 +1,4 @@
-﻿namespace Challenge2023.Day20.Models
+﻿namespace Challenge2023.Day20.Models.ComponentModels
 {
     internal class Conjunction : BaseComponent
     {
