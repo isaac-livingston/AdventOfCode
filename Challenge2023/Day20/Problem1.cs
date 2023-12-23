@@ -13,6 +13,12 @@ internal class Problem1 : DayBase
 
         BuildMachine(inputs);
 
+        if (Machine == null)
+        {
+            Console.WriteLine("Machine is null!");
+            return;
+        }
+
         (long highs, long lows) solution = (0, 0);
 
         for (var i = 0; i < 1000; i++)
@@ -22,8 +28,8 @@ internal class Problem1 : DayBase
 
         stopwatch.Stop();
 
-        ConsoleTools.PrintSolutionMessage($"H:{solution.highs} L:{solution.lows}");
-        ConsoleTools.PrintSolutionMessage($"T:{solution.highs  * solution.lows}");
+        ConsoleTools.PrintSolutionMessage($"Pulses - High:{solution.highs}, Low:{solution.lows}");
+        ConsoleTools.PrintSolutionMessage($"{solution.highs  * solution.lows} (High Pulses * Low Pulses)");
         ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }

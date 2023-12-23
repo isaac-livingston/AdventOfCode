@@ -4,7 +4,7 @@
     {
         private Dictionary<string, int> InputMemory { get; } = [];
 
-        public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions)
+        public override void ReceivePulse(int pulse, string fromId, Queue<Action> actions, long pushCount)
         {
             RegisterPulse(pulse);
 
@@ -16,10 +16,10 @@
 
             if (nextPulse == HIGH_PULSE)
             {
-                HighPulseOccuredAt = HighPulseCount;
+                NotablePulseObservedAtPushCount ??= pushCount;
             }
 
-            ScheduleActions(nextPulse, actions);
+            ScheduleActions(nextPulse, actions, pushCount);
         }
 
         public void RegisterInputComponentWithMemory(BaseComponent component)

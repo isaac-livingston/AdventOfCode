@@ -43,18 +43,20 @@ internal class Problem2 : DayBase
 
         foreach (var inputComponent in outputterInputComponents)
         {
-            Console.WriteLine($"Input component: {inputComponent.Id}, which is a {inputComponent.GetType().Name}");
+            Console.WriteLine("");
+            Console.WriteLine($"[{outputer.Id}] has input component: [{inputComponent.Id}], which is a {inputComponent.GetType().Name}");
 
             if (inputComponent is Conjunction conjunction)
             {
+                Console.WriteLine("");
+                Console.WriteLine($"Setting up observers for the inputs to [{inputComponent.Id}]...");
+                Console.WriteLine("");
                 var conjunctionInputComponents = Machine.GetInputComponentsFor(conjunction);
                 foreach (var conjunctionInputComponent in conjunctionInputComponents)
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine($"Conjunction input component: {conjunctionInputComponent.Id}, which is a {conjunctionInputComponent.GetType().Name}");
-                    Console.WriteLine($"creating an observation for {conjunctionInputComponent.Id} to look for the first High Pulse occurrence...");
-                    var observation = new Observation(() => { return conjunctionInputComponent.HighPulseOccuredAt != null; },
-                                                      () => { return conjunctionInputComponent.HighPulseOccuredAt.GetValueOrDefault(); });
+                    Console.WriteLine($"observing [{conjunctionInputComponent.Id}] -[HIGH]-> [{inputComponent.Id}], returning the count of button pushes when seen...");
+                    var observation = new Observation(() => { return conjunctionInputComponent.NotablePulseObservedAtPushCount != null; },
+                                                      () => { return conjunctionInputComponent.NotablePulseObservedAtPushCount.GetValueOrDefault(); });
 
                     observer.AddObservation(observation);
                 }
@@ -62,43 +64,30 @@ internal class Problem2 : DayBase
         }
 
         var solution = 0L;
-        var iter = 1000000;
-
-        Console.WriteLine("");
-        Console.WriteLine($"Pushing the button, reporting every {iter:N0} pushes...");
+        var observationResults = new List<object>();
         while (true)
         {
             _ = Machine.PusbButton();
-            solution++;
 
-            var (observedAll, observationResults) = observer.Observe();
+            var (observedAll, results) = observer.Observe();
 
             if (observedAll)
             {
                 Console.WriteLine("");
-                Console.WriteLine($"All observations have been observed!");
-                Console.WriteLine($"Observation results: {string.Join(", ", observationResults)}");
-                double lcm = 1L;
-                foreach (var obs in observationResults)
+                Console.WriteLine($"All observation complete! [{string.Join(", ", results)}]");
+                solution = 1L;
+                foreach (var obs in results)
                 {
-                    var lobs = (long)obs;
-                    Console.WriteLine($"{lcm} * {lobs} = {lcm * lobs}");
-                    lcm *= (long)obs;
+                    solution *= (long)obs;
                 }
-                Console.WriteLine($"LCM: {lcm:N0/}");
+                observationResults = results;
                 break;
-            }
-
-            if (solution % iter == 0)
-            {
-                Console.WriteLine("");
-                ConsoleTools.PrintIterationMessage("pushes", solution, stopwatch);
             }
         }
 
         stopwatch.Stop();
 
-        ConsoleTools.PrintSolutionMessage($"{solution}");
+        ConsoleTools.PrintSolutionMessage($"{solution} (LCM = {string.Join(" * ", observationResults)})");
         ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
     }
 }

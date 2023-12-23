@@ -4,7 +4,7 @@ namespace Challenge2023.Day20.Models
 {
     internal class Machine(Dictionary<string, BaseComponent> components)
     {
-        public FrozenDictionary<string, BaseComponent> Components { get; } = components?.ToFrozenDictionary() 
+        public FrozenDictionary<string, BaseComponent> Components { get; } = components?.ToFrozenDictionary()
                                                                              ?? throw new ArgumentNullException(nameof(components));
 
         public Queue<Action> Actions { get; private set; } = new Queue<Action>();
@@ -12,16 +12,6 @@ namespace Challenge2023.Day20.Models
         private readonly Broadcaster _broadcaster = components?.Values.Where(c => c is Broadcaster)
                                                                       .Select(c => c as Broadcaster)
                                                                       .Single() ?? throw new ArgumentNullException(nameof(components));
-
-        public (long highs, long lows) PusbButton()
-        {
-            CycleMachine(BaseComponent.LOW_PULSE, from: "button");
-
-            var l = BaseComponent.LowPulseCount;
-            var h = BaseComponent.HighPulseCount;
-
-            return (h, l);
-        }
 
         public Outputer? GetOutputer()
         {
@@ -41,9 +31,33 @@ namespace Challenge2023.Day20.Models
                                     .ToList();
         }
 
-        private void CycleMachine(int pulse, string from)
+        public long GetLowPulseCountForAllComponents()
         {
-            _broadcaster.ReceivePulse(pulse, from, Actions);
+            return Components.Values.Sum(c => c.LowPulseCount);
+        }
+
+        public long GetHighPulseCountForAllComponents()
+        {
+            return Components.Values.Sum(c => c.HighPulseCount);
+        }
+
+        private long _pushCount = 0L;
+
+        public (long highs, long lows) PusbButton()
+        {
+            _pushCount++;
+
+            CycleMachine(BaseComponent.LOW_PULSE, from: "button", _pushCount);
+
+            var lowPulseCount = GetLowPulseCountForAllComponents();
+            var hightPulseCount = GetHighPulseCountForAllComponents();
+
+            return (hightPulseCount, lowPulseCount);
+        }
+
+        private void CycleMachine(int pulse, string from, long pushCount)
+        {
+            _broadcaster.ReceivePulse(pulse, from, Actions, pushCount);
 
             while (Actions.Count > 0)
             {
