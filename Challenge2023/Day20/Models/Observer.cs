@@ -11,10 +11,10 @@
             _observations.Add(observation);
         }
 
-        public (bool observedAll, List<object> observationOutput) Observe()
+        public (bool observedAll, List<object> observationResults) Observe()
         {
             var observedAll = true;
-            var observationOutput = new List<object>();
+            var observationResults = new List<object>();
 
             foreach (var observation in _observations)
             {
@@ -22,13 +22,13 @@
 
                 if (observed)
                 {
-                    observationOutput.Add(observation.WhatToDoWhenObserved());
+                    observationResults.Add(observation.WhatToDoWhenObserved());
                 }
 
                 observedAll &= observed;
             }
 
-            return (observedAll, observationOutput);
+            return (observedAll, observationResults);
         }
     }
 }

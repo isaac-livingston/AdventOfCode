@@ -23,6 +23,24 @@ namespace Challenge2023.Day20.Models
             return (h, l);
         }
 
+        public Outputer? GetOutputer()
+        {
+            return Components.Values.Where(c => c is Outputer)
+                                    .Select(c => c as Outputer)
+                                    .SingleOrDefault();
+        }
+
+        public List<BaseComponent> GetInputComponentsFor(BaseComponent? component)
+        {
+            if (component == null)
+            {
+                return [];
+            }
+
+            return Components.Values.Where(c => c.ConnectedComponents.Contains(component))
+                                    .ToList();
+        }
+
         private void CycleMachine(int pulse, string from)
         {
             _broadcaster.ReceivePulse(pulse, from, Actions);

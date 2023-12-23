@@ -14,6 +14,11 @@
                           ? LOW_PULSE
                           : HIGH_PULSE;
 
+            if (nextPulse == HIGH_PULSE)
+            {
+                HighPulseOccuredAt = HighPulseCount;
+            }
+
             ScheduleActions(nextPulse, actions);
         }
 

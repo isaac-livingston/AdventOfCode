@@ -8,20 +8,17 @@
         public static long LowPulseCount { get; set; } = 0;
         public static long HighPulseCount { get; set; } = 0;
 
-        public long? LowPulseOccuredAt { get; private set; } = null;
-        public long? HighPulseOccuredAt { get; private set; } = null;
+        public long? HighPulseOccuredAt { get; protected set; } = null;
 
-        public void RegisterPulse(int pulse)
+        public static void RegisterPulse(int pulse)
         {
             if (pulse == HIGH_PULSE)
             {
                 HighPulseCount++;
-                HighPulseOccuredAt ??= HighPulseCount;
             }
             else
             {
                 LowPulseCount++;
-                LowPulseOccuredAt ??= LowPulseCount;
             }
         }
 
