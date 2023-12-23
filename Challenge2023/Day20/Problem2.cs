@@ -41,19 +41,19 @@ internal class Problem2 : DayBase
             return;
         }
 
-        foreach(var inputComponent in outputterInputComponents)
+        foreach (var inputComponent in outputterInputComponents)
         {
             Console.WriteLine($"Input component: {inputComponent.Id}, which is a {inputComponent.GetType().Name}");
 
             if (inputComponent is Conjunction conjunction)
             {
                 var conjunctionInputComponents = Machine.GetInputComponentsFor(conjunction);
-                foreach(var conjunctionInputComponent in conjunctionInputComponents)
+                foreach (var conjunctionInputComponent in conjunctionInputComponents)
                 {
                     Console.WriteLine("");
                     Console.WriteLine($"Conjunction input component: {conjunctionInputComponent.Id}, which is a {conjunctionInputComponent.GetType().Name}");
                     Console.WriteLine($"creating an observation for {conjunctionInputComponent.Id} to look for the first High Pulse occurrence...");
-                    var observation = new Observation(() => { return conjunctionInputComponent.HighPulseOccuredAt != null; }, 
+                    var observation = new Observation(() => { return conjunctionInputComponent.HighPulseOccuredAt != null; },
                                                       () => { return conjunctionInputComponent.HighPulseOccuredAt.GetValueOrDefault(); });
 
                     observer.AddObservation(observation);
@@ -79,13 +79,13 @@ internal class Problem2 : DayBase
                 Console.WriteLine($"All observations have been observed!");
                 Console.WriteLine($"Observation results: {string.Join(", ", observationResults)}");
                 double lcm = 1L;
-                foreach(var obs in observationResults)
+                foreach (var obs in observationResults)
                 {
                     var lobs = (long)obs;
                     Console.WriteLine($"{lcm} * {lobs} = {lcm * lobs}");
-                    lcm = lcm * (long)obs;
+                    lcm *= (long)obs;
                 }
-                Console.WriteLine($"LCM: {lcm:N0}");
+                Console.WriteLine($"LCM: {lcm:N0/}");
                 break;
             }
 
