@@ -34,7 +34,7 @@ namespace Challenge2023.Day23.Models
             {
                 return Moves.U;
             }
-            else if (c == 'V')
+            else if (c == 'v')
             {
                 return Moves.D;
             }
@@ -49,7 +49,7 @@ namespace Challenge2023.Day23.Models
 
             Moves? moves = null;
 
-            if (left != null && left != '#' && right != '>')
+            if (left != null && left != '#' && left != '>')
             {
                 moves ??= Moves.L;
             }
@@ -66,7 +66,7 @@ namespace Challenge2023.Day23.Models
                 }
             }
 
-            if (up != null && up != '#' && right != 'V')
+            if (up != null && up != '#' && up != 'v')
             {
                 if (moves == null)
                 {
@@ -78,7 +78,7 @@ namespace Challenge2023.Day23.Models
                 }
             }
 
-            if (down != null && down != '#' && right != '^')
+            if (down != null && down != '#' && down != '^')
             {
                 if (moves == null)
                 {
@@ -93,26 +93,58 @@ namespace Challenge2023.Day23.Models
             return moves.GetValueOrDefault();
         }
 
-        private readonly HashSet<PathFinder> _pathFinders = [];
+        public readonly HashSet<PathFinder> PathFinders = [];
 
         public bool PathFinderAllowed(PathFinder pathFinder)
         {
-            return PossibleMoves != Moves.N && !VisitedByPathFinder(pathFinder);
+            if (VisitedByPathFinder(pathFinder))
+            {
+                return false;
+            }
+
+            if (PossibleMoves == Moves.N)
+            {
+                return false;
+            }
+
+            if (PossibleMoves == Moves.D && pathFinder.ArrivedFrom == Moves.D && !StartTile)
+            {
+                return false;
+            }
+
+            if (PossibleMoves == Moves.U && pathFinder.ArrivedFrom == Moves.U && !EndTile)
+            {
+                return false;
+            }
+
+            if (PossibleMoves == Moves.L && pathFinder.ArrivedFrom == Moves.L)
+            {
+                return false;
+            }
+
+            if (PossibleMoves == Moves.R && pathFinder.ArrivedFrom == Moves.R)
+            {
+                return false;
+            }
+
+            return true;
+
+            //return PossibleMoves != Moves.N && !VisitedByPathFinder(pathFinder);
         }
 
         public void BackfillPathFinder(PathFinder pathFinder)
         {
-            _pathFinders.Add(pathFinder);
+            PathFinders.Add(pathFinder);
         }
 
         public bool VisitedByPathFinder(PathFinder pathFinder)
         {
-            return _pathFinders.Contains(pathFinder);
+            return PathFinders.Contains(pathFinder);
         }
 
-        public List<Moves> AcceptPathFinder(PathFinder pathFinder, Moves arrivedFrom)
+        public List<Moves> EnterTile(PathFinder pathFinder, Moves arrivedFrom)
         {
-            _pathFinders.Add(pathFinder);
+            PathFinders.Add(pathFinder);
 
             var moves = new List<Moves>();
 

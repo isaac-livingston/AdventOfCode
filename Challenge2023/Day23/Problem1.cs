@@ -1,5 +1,6 @@
 ﻿using Challenge2023.Common;
 using Challenge2023.Day23.Models;
+using Challenge2023.Day23.Visualizer;
 using System.Text;
 
 namespace Challenge2023.Day23;
@@ -14,31 +15,38 @@ internal class Problem1 : DayBase
 
         LoadTileMap(inputs);
 
-        var sp = TileMap.Cast<Tile>().FirstOrDefault(t => t.StartTile);
-        var ep = TileMap.Cast<Tile>().FirstOrDefault(t => t.EndTile);
+        GoHiking();
 
-        Console.WriteLine($"Starting Point: {sp}");
-        Console.WriteLine($"Ending Point: {ep}");
-        //var OUTPUT_FOLDER = Path.Combine(DAY_FOLDER, "Output");
+        var arrivedPathFinders = PathFinders.Where(p => p.Status == Enums.PathFinderStatus.Arrived).ToList();
 
-        //if (!Directory.Exists(OUTPUT_FOLDER))
+        Console.WriteLine($"Pathfinders: {arrivedPathFinders.Count}");
+
+        var tiles = TileMap.Cast<Tile>().ToList();
+
+        var hikes = new Dictionary<PathFinder, int>();
+
+        foreach (var pathFinder in arrivedPathFinders)
+        {
+            hikes[pathFinder] = tiles.Where(t => t.PathFinders.Contains(pathFinder)).Count();
+        }
+
+        //foreach(var hike in hikes.OrderBy(x => x.Value))
         //{
-        //    Directory.CreateDirectory(OUTPUT_FOLDER);
-        //}
-        //var sb = new StringBuilder();
-
-        //for(var r = 0; r < TileMap.GetLength(0); r++)
-        //{
-        //    for(var c = 0; c < TileMap.GetLength(1); c++)
-        //    {
-        //        sb.Append($"[{TileMap[r, c].PossibleMoves.ToString().Replace(',','.')}],");
-        //    }
-        //    sb.Append('\n');
+        //    Console.WriteLine($"Hike: {hike.Value}\t{hike.Key}");
         //}
 
-        //File.WriteAllText(Path.Combine(OUTPUT_FOLDER, "output.csv"), sb.ToString());
+        //var checkem = hikes.Where(h => h.Value > 1).OrderBy(x => x.Value).ToList();
 
-        var solution = 0;
+        //foreach (var xx in checkem)
+        //{
+        //    var plotter = new TilePlotter(TileMap.GetLength(0) * 10, TileMap.GetLength(1) * 10, tiles, xx.Key.Id);
+        //    plotter.CreatePathBitmap(DAY_FOLDER, $"output_{xx.Value}_{xx.Key.Id}.png");
+        //}
+
+        //var plotter2 = new TilePlotter(TileMap.GetLength(0) * 10, TileMap.GetLength(1) * 10, tiles, Guid.NewGuid());
+        //plotter2.CreatePathBitmap(DAY_FOLDER, $"output_base.png");
+
+        var solution = hikes.Values.Max();
 
         ConsoleTools.PrintSolutionMessage($"{solution}");
         ConsoleTools.PrintDurationMessage(stopwatch.ElapsedMilliseconds);
