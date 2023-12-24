@@ -14,8 +14,8 @@ internal class Problem1 : DayBase
 
         LoadTileMap(inputs);
 
-        var sp = TileMap.Cast<Tile>().FirstOrDefault(t => t.StartingPoint);
-        var ep = TileMap.Cast<Tile>().FirstOrDefault(t => t.EndingPoint);
+        var sp = TileMap.Cast<Tile>().FirstOrDefault(t => t.StartTile);
+        var ep = TileMap.Cast<Tile>().FirstOrDefault(t => t.EndTile);
 
         Console.WriteLine($"Starting Point: {sp}");
         Console.WriteLine($"Ending Point: {ep}");

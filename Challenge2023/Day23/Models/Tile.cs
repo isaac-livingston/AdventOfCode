@@ -8,8 +8,9 @@ namespace Challenge2023.Day23.Models
 
         public int Column { get; } = column;
 
-        public bool StartingPoint { get; } = SetStartingPoint(c, up, down, left, right);
-        public bool EndingPoint { get; } = SetEndingPoint(c, up, down, left, right);
+        public bool StartTile { get; } = SetStartingPoint(c, up, down, left, right);
+
+        public bool EndTile { get; } = SetEndingPoint(c, up, down, left, right);
 
         public Moves PossibleMoves { get; } = SetPossibleMoves(c, up, down, left, right);
 
