@@ -1,4 +1,4 @@
-﻿using Challenge2023.Common;
+﻿using Challenge.Common;
 using Challenge2023.Day07.Comparers;
 using System.Collections.Frozen;
 

@@ -1,4 +1,4 @@
-﻿using Challenge2023.Common;
+﻿using Challenge.Common;
 
 namespace Challenge2023.Day15;
 

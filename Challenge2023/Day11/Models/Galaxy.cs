@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Challenge2023.Day11.Models
+﻿namespace Challenge2023.Day11.Models
 {
     internal class Galaxy(long spaceTimeColumn, long spaceTimeRow) : IEquatable<Galaxy>
     {

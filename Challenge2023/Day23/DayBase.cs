@@ -1,4 +1,4 @@
-﻿using Challenge2023.Common;
+﻿using Challenge.Common;
 using Challenge2023.Day23.Enums;
 using Challenge2023.Day23.Models;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Challenge2023.Day05.Models
+﻿namespace Challenge2023.Day05.Models
 {
     internal class Map
     {

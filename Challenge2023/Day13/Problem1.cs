@@ -1,5 +1,4 @@
-﻿using Challenge2023.Common;
-using System.Text;
+﻿using Challenge.Common;
 
 namespace Challenge2023.Day13;
 

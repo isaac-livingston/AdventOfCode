@@ -1,4 +1,4 @@
-﻿using Challenge2023.Common;
+﻿using Challenge.Common;
 using System.Collections.Frozen;
 
 #nullable disable

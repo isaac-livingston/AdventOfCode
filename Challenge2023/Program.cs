@@ -1,4 +1,4 @@
-﻿using Challenge2023.Common;
+﻿using Challenge.Common;
 using System.Reflection;
 
 string? assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
