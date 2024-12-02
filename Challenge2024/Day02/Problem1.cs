@@ -7,7 +7,7 @@ internal class Problem1 : Day02Base
         var inputs = GetInputs(folder: "day02", false);
         ParseInputs(inputs);
 
-        int safeReportCount = Reports.Sum(report =>
+        int safeReportCount = Reports.AsParallel().Sum(report =>
         {
             if (ReportIsSafe(report))
             {

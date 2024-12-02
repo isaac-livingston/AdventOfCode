@@ -6,16 +6,14 @@ internal class Problem2 : Day02Base
         var inputs = GetInputs(folder: "day02", false);
         ParseInputs(inputs);
 
-        int safeReportCount = Reports.Sum(report =>
+        int safeReportCount = Reports.AsParallel().Sum(report =>
         {
             if (ReportIsSafe(report))
             {
                 return 1;
             }
-            
-            var dampenedReports = GetDampenedReports(report);
 
-            foreach (var dampenedReport in dampenedReports)
+            foreach (var dampenedReport in GetDampenedReports(report))
             {
                 if (ReportIsSafe(dampenedReport))
                 {
