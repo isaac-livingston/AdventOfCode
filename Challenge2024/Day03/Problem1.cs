@@ -9,7 +9,8 @@ internal class Problem1 : Day03Base
 
         LoadInstruction(Program);
 
-        var mulTotal = MemorySets.Select(x => x.Item1 * x.Item2).Sum();
+        var mulTotal = MemorySets.Select(x => x.Item1 * x.Item2)
+                                 .Sum();
 
         Console.WriteLine($"Total: {mulTotal:N0}");
     }

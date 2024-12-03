@@ -6,16 +6,13 @@ internal class Problem2 : Day03Base
         var inputs = GetInputs(folder: "day03", false);
         ParseInputs(inputs);
 
-        var instructions = Program.Split("do()", SPLIT_OPTS)
-                                  .Select(x => x.Split("don't()", SPLIT_OPTS).First())
-                                  .ToArray();
-
-        foreach(var instruction in instructions)
-        {
-            LoadInstruction(instruction);
-        }
-
-        var mulTotal = MemorySets.Select(x => x.Item1 * x.Item2).Sum();
+        Program.Split("do()", SPLIT_OPTS)
+               .Select(x => x.Split("don't()", SPLIT_OPTS).First())
+               .ToList()
+               .ForEach(LoadInstruction);
+        
+        var mulTotal = MemorySets.Select(x => x.Item1 * x.Item2)
+                                 .Sum();
 
         Console.WriteLine($"Total: {mulTotal:N0}");
     }
