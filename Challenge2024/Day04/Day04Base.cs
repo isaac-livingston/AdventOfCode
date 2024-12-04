@@ -30,12 +30,7 @@ internal class Day04Base : ProblemBase
 
                     if (IsValidPosition(nx, ny) && Crossword[nx][ny] == term2)
                     {
-                        var history = new Dictionary<char, (int, int)>
-                            {
-                                { term2, (nx, ny) }
-                            };
-
-                        candidates.Add(new Candidate(nx, ny, dir, history));
+                        candidates.Add(new Candidate(term2, (nx, ny), dir));
                     }
                 }
             }
@@ -44,18 +39,17 @@ internal class Day04Base : ProblemBase
         UpdateCandidates(candidates);
     }
 
-    public Candidate? FindNextInSequence(Candidate startCandidate, char nextTerm)
+    public Candidate? FindNextInSequence(Candidate candidate, char nextTerm)
     {
-        var (dx, dy) = DirectionOffsets[startCandidate.Direction];
-        int nx = startCandidate.Row + dx;
-        int ny = startCandidate.Col + dy;
+        var (dx, dy) = DirectionOffsets[candidate.Direction];
+        int nx = candidate.Row + dx;
+        int ny = candidate.Col + dy;
 
         if (IsValidPosition(nx, ny) && Crossword[nx][ny] == nextTerm)
         {
-            var history = startCandidate.History;
-            history.Add(nextTerm, (nx, ny));
+            var nextCandidate = candidate.Update(nextTerm, (nx, ny));
 
-            return new Candidate(nx, ny, startCandidate.Direction, history);
+            return nextCandidate;
         }
 
         return null;
