@@ -47,9 +47,9 @@ internal class Day04Base : ProblemBase
 
                         if (IsValidPosition(nx, ny) && Crossword[nx][ny] == term2)
                         {
-                            var history = new Dictionary<char, (int, int)> 
-                            { 
-                                { term2, (nx, ny) } 
+                            var history = new Dictionary<char, (int, int)>
+                            {
+                                { term2, (nx, ny) }
                             };
 
                             candidates.Add(new Candidate(nx, ny, dir, history));
@@ -76,7 +76,7 @@ internal class Day04Base : ProblemBase
 
         if (IsValidPosition(nx, ny) && Crossword[nx][ny] == nextTerm)
         {
-            var history = startCandidate.history;
+            var history = startCandidate.History;
             history.Add(nextTerm, (nx, ny));
 
             return new Candidate(nx, ny, startCandidate.Direction, history);
@@ -96,16 +96,16 @@ internal class Day04Base : ProblemBase
     }
 }
 
-internal record Candidate(int Row, int Col, DirectionFlag Direction, Dictionary<char,(int,int)> history)
+internal record Candidate(int Row, int Col, DirectionFlag Direction, Dictionary<char, (int, int)> History)
 {
-    public override string ToString() => $"Row: {Row}, Col: {Col}, Direction: {Direction}, History: {string.Join("", history.Keys)}";
+    public override string ToString() => $"Row: {Row}, Col: {Col}, Direction: {Direction}, History: {string.Join("", History.Keys)}";
 }
 
 [Flags]
 internal enum DirectionFlag : int
 {
     None = 0,
-    Up =  1 << 0,
+    Up = 1 << 0,
     Down = 1 << 1,
     Left = 1 << 2,
     Right = 1 << 3

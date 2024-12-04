@@ -23,7 +23,7 @@ internal class Problem2 : Day04Base
                                              || x.Direction == (DirectionFlag.Down | DirectionFlag.Left)
                                              || x.Direction == (DirectionFlag.Down | DirectionFlag.Right)).ToList();
 
-        var crossedMAS = diagonalMAS.GroupBy(x => x.history['A'])
+        var crossedMAS = diagonalMAS.GroupBy(x => x.History['A'])
                                     .Where(x => x.Count() > 1)
                                     .ToList();
 
