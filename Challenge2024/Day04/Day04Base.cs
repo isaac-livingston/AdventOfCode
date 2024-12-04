@@ -1,4 +1,5 @@
-﻿namespace Challenge2024.Day04;
+﻿using static Challenge.Common.Helpers;
+namespace Challenge2024.Day04;
 
 internal class Day04Base : ProblemBase
 {
@@ -6,26 +7,13 @@ internal class Day04Base : ProblemBase
 
     public List<Candidate> Candidates { get; } = [];
 
-    public static Dictionary<DirectionFlag, (int dx, int dy)> DirectionOffsets => new()
-    {
-        { DirectionFlag.None, (0, 0) },
-        { DirectionFlag.Up, (-1, 0) },
-        { DirectionFlag.Down, (1, 0) },
-        { DirectionFlag.Left, (0, -1) },
-        { DirectionFlag.Right, (0, 1) },
-        { DirectionFlag.Up | DirectionFlag.Left, (-1, -1) },
-        { DirectionFlag.Up | DirectionFlag.Right, (-1, 1) },
-        { DirectionFlag.Down | DirectionFlag.Left, (1, -1) },
-        { DirectionFlag.Down | DirectionFlag.Right, (1, 1) },
-    };
-
     public void ParseInputs(string[] inputs)
     {
         Crossword = inputs.Select(x => x.ToCharArray())
                           .ToArray();
     }
 
-    public void InitializeCandidates(char term, char term2, DirectionFlag direction)
+    public void InitializeCandidates(char term, char term2)
     {
         var candidates = new List<Candidate>();
 
@@ -33,39 +21,27 @@ internal class Day04Base : ProblemBase
         {
             for (int y = 0; y < Crossword[x].Length; y++)
             {
-                if (Crossword[x][y] == term)
+                if (Crossword[x][y] != term) continue;
+
+                foreach (var (dir, (dx, dy)) in DirectionOffsets)
                 {
-                    var directionsToCheck = direction == DirectionFlag.None
-                                          ? DirectionOffsets.Keys.ToArray()
-                                          : [direction];
+                    int nx = x + dx;
+                    int ny = y + dy;
 
-                    foreach (var dir in directionsToCheck)
+                    if (IsValidPosition(nx, ny) && Crossword[nx][ny] == term2)
                     {
-                        var (dx, dy) = DirectionOffsets[dir];
-                        int nx = x + dx;
-                        int ny = y + dy;
-
-                        if (IsValidPosition(nx, ny) && Crossword[nx][ny] == term2)
-                        {
-                            var history = new Dictionary<char, (int, int)>
+                        var history = new Dictionary<char, (int, int)>
                             {
                                 { term2, (nx, ny) }
                             };
 
-                            candidates.Add(new Candidate(nx, ny, dir, history));
-                        }
+                        candidates.Add(new Candidate(nx, ny, dir, history));
                     }
                 }
             }
         }
 
         UpdateCandidates(candidates);
-    }
-
-    public void UpdateCandidates(List<Candidate> candidates)
-    {
-        Candidates.Clear();
-        Candidates.AddRange(candidates);
     }
 
     public Candidate? FindNextInSequence(Candidate startCandidate, char nextTerm)
@@ -85,6 +61,12 @@ internal class Day04Base : ProblemBase
         return null;
     }
 
+    public void UpdateCandidates(List<Candidate> candidates)
+    {
+        Candidates.Clear();
+        Candidates.AddRange(candidates);
+    }
+
     private bool IsValidPosition(int x, int y)
     {
         return x >= 0 && x < Crossword.Length && y >= 0 && y < Crossword[0].Length;
@@ -94,19 +76,4 @@ internal class Day04Base : ProblemBase
     {
         throw new NotImplementedException();
     }
-}
-
-internal record Candidate(int Row, int Col, DirectionFlag Direction, Dictionary<char, (int, int)> History)
-{
-    public override string ToString() => $"Row: {Row}, Col: {Col}, Direction: {Direction}, History: {string.Join("", History.Keys)}";
-}
-
-[Flags]
-internal enum DirectionFlag : int
-{
-    None = 0,
-    Up = 1 << 0,
-    Down = 1 << 1,
-    Left = 1 << 2,
-    Right = 1 << 3
 }

@@ -3,7 +3,7 @@ string? assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 string? defaultNameSpace = assemblyName;
 
 int day = 4;
-int problem = 1;
+int problem = 2;
 
 if (args.Length == 2)
 {
@@ -36,10 +36,10 @@ if (problemInstance == null)
     ConsoleTools.PrintExceptionMessage($"Hmmm... an instance of [{problemType}] was not able to be created.");
     return;
 }
-
+problemInstance.stopwatch.Start();
 problemInstance.RunSolution();
-
+problemInstance.stopwatch.Stop();
 Console.ResetColor();
 Console.WriteLine();
 Console.WriteLine();
-Console.WriteLine("fin.");
+Console.WriteLine($"fin. {problemInstance.stopwatch.ElapsedMilliseconds:n2}ms");

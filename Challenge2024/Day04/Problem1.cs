@@ -7,13 +7,13 @@ internal class Problem1 : Day04Base
         var inputs = GetInputs(folder: "day04", false);
         ParseInputs(inputs);
 
-        InitializeCandidates('X', 'M', DirectionFlag.None);
+        InitializeCandidates('X', 'M');
 
         foreach (var letter in "AS")
         {
             var candidates = Candidates.Select(candidate => FindNextInSequence(candidate, letter))
-                                   .Where(x => x != null)
-                                   .ToList();
+                                       .Where(x => x != null)
+                                       .ToList();
 
             UpdateCandidates(candidates!);
         }

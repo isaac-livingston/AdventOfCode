@@ -7,21 +7,22 @@ internal class Problem2 : Day04Base
         var inputs = GetInputs(folder: "day04", false);
         ParseInputs(inputs);
 
-        InitializeCandidates('M', 'A', DirectionFlag.None);
+        InitializeCandidates('M', 'A');
 
         foreach (var letter in "S")
         {
             var candidates = Candidates.Select(candidate => FindNextInSequence(candidate, letter))
-                                   .Where(x => x != null)
-                                   .ToList();
+                                       .Where(x => x != null)
+                                       .ToList();
 
             UpdateCandidates(candidates!);
         }
 
-        var diagonalMAS = Candidates.Where(x => x.Direction == (DirectionFlag.Up | DirectionFlag.Left)
-                                             || x.Direction == (DirectionFlag.Up | DirectionFlag.Right)
-                                             || x.Direction == (DirectionFlag.Down | DirectionFlag.Left)
-                                             || x.Direction == (DirectionFlag.Down | DirectionFlag.Right)).ToList();
+        var diagonalMAS = Candidates.Where(x => x.Direction == DirectionFlag.UpLeft
+                                             || x.Direction == DirectionFlag.UpRight
+                                             || x.Direction == DirectionFlag.DownLeft
+                                             || x.Direction == DirectionFlag.DownRight)
+                                    .ToList();
 
         var crossedMAS = diagonalMAS.GroupBy(x => x.History['A'])
                                     .Where(x => x.Count() > 1)
