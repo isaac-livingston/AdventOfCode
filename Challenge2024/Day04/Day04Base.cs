@@ -1,5 +1,4 @@
-﻿using static Challenge.Common.Helpers;
-namespace Challenge2024.Day04;
+﻿namespace Challenge2024.Day04;
 
 internal class Day04Base : ProblemBase
 {
