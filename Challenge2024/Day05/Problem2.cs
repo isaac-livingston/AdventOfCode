@@ -13,11 +13,10 @@ internal class Problem2 : Day05Base
         }
 
         var invalidRequests = UpdateRequests.Except(ValidRequests).ToList();
-        var ruleFails = RequestRuleFailures.Select(x => x.Key).ToList();
 
         var corrected = new List<int[]>();
 
-        foreach(var rule in ruleFails)
+        foreach(var rule in invalidRequests)
         {
             var correctedOrder = CorrectOrder(rule);
             corrected.Add(correctedOrder);

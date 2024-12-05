@@ -8,8 +8,6 @@ internal class Day05Base : ProblemBase
 
     public List<int[]> ValidRequests { get; } = [];
 
-    public Dictionary<int[], List<(int before, int after)>> RequestRuleFailures { get; } = [];
-
     public void ParseInputs(string[] inputs)
     {
         for(var i = 0; i < inputs.Length; i++)
@@ -49,20 +47,12 @@ internal class Day05Base : ProblemBase
         var indexMap = request.Select((value, index) => (value, index))
                               .ToDictionary(x => x.value, x => x.index);
 
-        var failures = new List<(int before, int after)>();
-
         foreach (var (before, after) in ruleSet)
         {
             if (indexMap[before] >= indexMap[after])
             {
-                failures.Add((before, after));
+                return false;
             }
-        }
-
-        if (failures.Count != 0)
-        {
-            RequestRuleFailures.Add(request, failures);
-            return false;
         }
 
         return true;
