@@ -68,9 +68,4 @@ internal class Day05Base : ProblemBase
         int middleIndex = numbers.Length / 2;
         return numbers[middleIndex];
     }
-
-    public override void RunSolution()
-    {
-        throw new NotImplementedException();
-    }
 }

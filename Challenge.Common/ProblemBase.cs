@@ -21,5 +21,8 @@ public abstract class ProblemBase
         return records;
     }
 
-    public abstract void RunSolution();
+    public virtual void RunSolution()
+    {
+        throw new NotImplementedException();
+    }
 }
