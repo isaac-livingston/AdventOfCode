@@ -7,8 +7,13 @@ internal class SecurityGrid
     private readonly Dictionary<(int X, int Y), Node> _nodes = [];
     public char[,] Grid { get; private set; } = default!;
 
+    public Dictionary<(int x, int y, int dx, int dy), Node?> NodeMemo { get; } = [];
+
     public void InitializeGrid(char[,] grid)
     {
+        _nodes.Clear();
+        NodeMemo.Clear();
+
         Grid = grid;
         int ySize = Grid.GetLength(0);
         int xSize = Grid.GetLength(1);
@@ -25,16 +30,17 @@ internal class SecurityGrid
         }
     }
 
-    public Node? GetNode(int x, int y)
-    {
-        return _nodes.TryGetValue((x, y), out var node) ? node : null;
-    }
-
     public Node? SeekNode(int x, int y, int dX, int dY)
     {
         if (Math.Abs(dX) > 1 || Math.Abs(dY) > 1)
         {
             throw new ArgumentException("Direction values must be -1, 0, or 1.");
+        }
+
+        var key = (x, y, dX, dY);
+        if (NodeMemo.TryGetValue(key, out var memoizedNode))
+        {
+            return memoizedNode;
         }
 
         int currentX = x + dX;
@@ -43,17 +49,20 @@ internal class SecurityGrid
         int maxX = Grid.GetLength(0);
         int maxY = Grid.GetLength(1);
 
+        Node? foundNode = null;
         while (currentX >= 0 && currentX < maxX && currentY >= 0 && currentY < maxY)
         {
-            if (_nodes.TryGetValue((currentX, currentY), out var node))
+            if (_nodes.TryGetValue((currentX, currentY), out foundNode))
             {
-                return node;
+                break;
             }
 
             currentX += dX;
             currentY += dY;
         }
 
-        return null;
+        NodeMemo[key] = foundNode;
+
+        return foundNode;
     }
 }

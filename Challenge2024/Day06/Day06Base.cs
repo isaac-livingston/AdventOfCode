@@ -2,9 +2,9 @@
 
 internal class Day06Base : ProblemBase
 {
-    public SecurityGrid SecurityGrid { get; } = new SecurityGrid();
+    public SecurityGrid SecurityGrid { get; set; } = new SecurityGrid();
 
-    public Cursor SecurityGuard { get; private set; } = default!;
+    public Cursor SecurityGuard { get; set; } = default!;
 
     public void ParseInputs(string[] inputs)
     {
