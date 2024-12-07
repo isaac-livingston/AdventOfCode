@@ -7,6 +7,12 @@ internal class Problem1 : Day07Base
         var inputs = GetInputs(folder: "day07", false);
         ParseInputs(inputs);
 
-        //Console.WriteLine($"Total: {}");
+        EvaluateProblems();
+
+        var validResults = ValidResultCounts.Where(x => x.Value > 0)
+                                            .ToList();
+
+        var sumValidRsults = validResults.Sum(x => x.Key.result);
+        Console.WriteLine($"Sum of Valid Results: {sumValidRsults}");
     }
 }
