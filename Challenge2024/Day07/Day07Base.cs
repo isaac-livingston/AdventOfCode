@@ -2,8 +2,8 @@
 
 internal class Day07Base : ProblemBase
 {
-    public List<(long result, int[] terms)> ProblemSet { get; } = [];
-    public Dictionary<(long result, int[] terms), long> ValidResultCounts { get; } = [];
+    public List<(long target, int[] terms)> ProblemSet { get; } = [];
+    public Dictionary<(long target, int[] terms), long> ValidResultCounts { get; } = [];
 
     public void ParseInputs(string[] inputs)
     {
@@ -11,22 +11,22 @@ internal class Day07Base : ProblemBase
         {
             var parts = input.Split(":", SPLIT_OPTS);
             
-            var result = Convert.ToInt64(parts[0]);
+            var target = Convert.ToInt64(parts[0]);
 
             var terms = parts[1].Split(" ", SPLIT_OPTS)
                                 .Select(x => Convert.ToInt32(x))
                                 .ToArray();
 
-            ProblemSet.Add((result, terms));
+            ProblemSet.Add((target, terms));
         }
     }
 
     public void EvaluateProblems()
     {
-        foreach (var (result, terms) in ProblemSet)
+        foreach (var (target, terms) in ProblemSet)
         {
-            long validCount = FindValidResults(terms, 0, terms[0], result);
-            ValidResultCounts[(result, terms)] = validCount;
+            long validCount = FindValidResults(terms, 0, terms[0], target);
+            ValidResultCounts[(target, terms)] = validCount;
         }
     }
 
