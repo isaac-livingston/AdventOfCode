@@ -12,7 +12,7 @@ internal class Problem1 : Day07Base
         var validResults = ValidResultCounts.Where(x => x.Value > 0)
                                             .ToList();
 
-        var sumValidRsults = validResults.Sum(x => x.Key.result);
+        var sumValidRsults = validResults.Sum(x => x.Key.target);
         Console.WriteLine($"Sum of Valid Results: {sumValidRsults}");
     }
 }
