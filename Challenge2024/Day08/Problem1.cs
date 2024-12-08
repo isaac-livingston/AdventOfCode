@@ -7,7 +7,12 @@ internal class Problem1 : Day08Base
         var inputs = GetInputs(folder: "day08", false);
         ParseInputs(inputs);
 
-        Console.WriteLine($"Count of Valid Results: {1}");
-        Console.WriteLine($"Sum of Valid Results: {1}");
+        var uniqueGridBoundAntinodes = AntennaPairAntinodes.SelectMany(x => x.Value)
+                                                           .ToList()
+                                                           .Where(x => x.X >= 0 && x.X <= GridBoundsX && x.Y >= 0 && x.Y <= GridBoundsY)
+                                                           .ToHashSet();
+
+        Console.WriteLine($"Unique Antinodes in Grid: {uniqueGridBoundAntinodes.Count}");
+        //Console.WriteLine($"Sum of Valid Results: {1}");
     }
 }
