@@ -4,9 +4,9 @@ using OperationFunction = Func<long, long, long>;
 
 internal class Day07Base : ProblemBase
 {
-    public List<(long target, int[] terms)> ProblemSet { get; } = [];
+    public List<(long answer, int[] terms)> ProblemSet { get; } = [];
 
-    public Dictionary<(long target, int[] terms), long> ValidResults { get; } = [];
+    public Dictionary<(long answer, int[] terms), long> ValidResults { get; } = [];
 
     public void ParseInputs(string[] inputs)
     {
@@ -14,13 +14,13 @@ internal class Day07Base : ProblemBase
         {
             var parts = input.Split(':', StringSplitOptions.RemoveEmptyEntries);
 
-            var target = Convert.ToInt64(parts[0]);
+            var answer = Convert.ToInt64(parts[0]);
             var terms = parts[1]
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse)
                 .ToArray();
 
-            ProblemSet.Add((target, terms));
+            ProblemSet.Add((answer, terms));
         }
     }
 

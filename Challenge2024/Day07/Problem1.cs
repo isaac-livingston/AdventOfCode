@@ -11,7 +11,7 @@ internal class Problem1 : Day07Base
 
         EvaluateProblems(ProblemSet, [Add, Multiply]);
 
-        var sumValidResults = ValidResults.Sum(x => x.Key.target);
+        var sumValidResults = ValidResults.Sum(x => x.Key.answer);
 
         Console.WriteLine($"Count of Valid Results: {ValidResults.Count}");
         Console.WriteLine($"Sum of Valid Results: {sumValidResults}");
