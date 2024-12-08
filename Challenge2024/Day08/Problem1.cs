@@ -13,6 +13,5 @@ internal class Problem1 : Day08Base
                                                            .ToHashSet();
 
         Console.WriteLine($"Unique Antinodes in Grid: {uniqueGridBoundAntinodes.Count}");
-        //Console.WriteLine($"Sum of Valid Results: {1}");
     }
 }
