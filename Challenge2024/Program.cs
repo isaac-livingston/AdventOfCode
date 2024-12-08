@@ -39,7 +39,9 @@ if (problemInstance == null)
 problemInstance.stopwatch.Start();
 problemInstance.RunSolution();
 problemInstance.stopwatch.Stop();
+
 Console.ResetColor();
 Console.WriteLine();
 Console.WriteLine();
+
 Console.WriteLine($"fin. {problemInstance.stopwatch.ElapsedMilliseconds:n2}ms");
