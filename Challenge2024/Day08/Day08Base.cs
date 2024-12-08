@@ -56,7 +56,7 @@ internal class Day08Base : ProblemBase
         return antinodes;
     }
 
-    public List<Antinode> CalculateResonantHarmonicAntinodes()
+    public List<Antinode> CalculateHarmonicAntinodes()
     {
         var allAntinodes = new HashSet<Antinode>();
 
@@ -109,10 +109,3 @@ internal class Day08Base : ProblemBase
         return points;
     }
 }
-
-internal record Antenna(string Frequency, int X, int Y)
-{
-    public override string ToString() => $"{Frequency} ({X}, {Y})";
-}
-
-internal record Antinode(int X, int Y);
