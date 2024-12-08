@@ -60,15 +60,15 @@ internal class Day08Base : ProblemBase
     {
         var allAntinodes = new HashSet<Antinode>();
 
-        var xx = AntennaPairAntinodes.GroupBy(x=>x.Key.Item1.Frequency);
+        var frequencyAntennaGroups = AntennaPairAntinodes.GroupBy(x=>x.Key.Item1.Frequency);
 
-        foreach(var c in xx)
+        foreach(var antennaGroup in frequencyAntennaGroups)
         {
-            var g = c.Select(x => x.Key).ToList();
+            var antennaSets = antennaGroup.Select(x => x.Key).ToList();
 
-            foreach (var pair in g)
+            foreach (var antennaSet in antennaSets)
             {
-                var (antenna1, antenna2) = pair;
+                var (antenna1, antenna2) = antennaSet;
 
                 foreach (var (x, y) in GetEchoAntinodes(antenna1.X, antenna1.Y, antenna2.X, antenna2.Y))
                 {
