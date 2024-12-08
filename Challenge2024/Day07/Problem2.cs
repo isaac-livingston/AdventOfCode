@@ -1,4 +1,6 @@
-﻿namespace Challenge2024.Day07;
+﻿using static Challenge2024.Day07.Operators;
+
+namespace Challenge2024.Day07;
 
 internal class Problem2 : Day07Base
 {
@@ -7,24 +9,11 @@ internal class Problem2 : Day07Base
         var inputs = GetInputs(folder: "day07", false);
         ParseInputs(inputs);
 
-        EvaluateProblems(ProblemSet, evalConcat: false);
+        EvaluateProblems(ProblemSet, [Add, Multiply, Concatinate]);
 
-        var valids = ValidResults.Select(x => x.Key)
-                                 .ToList();
+        var sumValidResults = ValidResults.Sum(x => x.Key.target);
 
-        var invalidProblemSet = ProblemSet.Except(valids)
-                                          .ToList();
-
-        EvaluateProblems(invalidProblemSet, evalConcat: true);
-
-        var sumValidRsults = ValidResults.Sum(x => x.Key.target);
-
-        //foreach(var ((target,terms), result) in ValidResults)
-        //{
-        //    Console.WriteLine($"Valid Result: {target}: {string.Join(" ", terms)} => {result}");
-        //}
-        Console.WriteLine("");
         Console.WriteLine($"Count of Valid Results: {ValidResults.Count}");
-        Console.WriteLine($"Sum of Valid Results: {sumValidRsults}");
+        Console.WriteLine($"Sum of Valid Results: {sumValidResults}");
     }
 }
