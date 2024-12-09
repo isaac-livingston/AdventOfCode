@@ -6,37 +6,33 @@ internal class Day09Base : ProblemBase
 
     public void ParseInputs(string[] inputs)
     {
-        long positionAccumulator = 0;
         int fileId = 0;
         foreach (var input in inputs)
         {
             var span = input.AsSpan();
             for (int c = 0; c < span.Length; c += 2)
             {
-                positionAccumulator = ProcessPair(span.Slice(c, Math.Min(2, span.Length - c)), fileId, positionAccumulator);
+                ProcessPair(span.Slice(c, Math.Min(2, span.Length - c)), fileId);
                 fileId++;
             }
         }
     }
 
-    private long ProcessPair(ReadOnlySpan<char> pair, int fileId, long positionAccumulator)
+    private void ProcessPair(ReadOnlySpan<char> pair, int fileId)
     {
         long fileSpace = pair.Length > 0 ? pair[0] - '0' : 0;
         long freeSpace = pair.Length > 1 ? pair[1] - '0' : 0;
 
         for (int i = 0; i < fileSpace; i++)
         {
-            TheDisk.Add(new FileBlock(fileId, positionAccumulator));
-            positionAccumulator++;
+            TheDisk.Add(new FileBlock(fileId));
         }
 
         for (int i = 0; i < freeSpace; i++)
         {
-            TheDisk.Add(new EmptyBlock(positionAccumulator));
-            positionAccumulator++;
+            TheDisk.Add(new EmptyBlock());
         }
 
-        return positionAccumulator;
     }
 
     public void AllocateFileBlocksToStartOfDisk()
@@ -73,13 +69,7 @@ internal class Day09Base : ProblemBase
         {
             if (TheDisk[right] is FileBlock lastFileBlock)
             {
-                int fileBlockStart = right;
-                while (fileBlockStart > 0 && 
-                       TheDisk[fileBlockStart - 1] is FileBlock previousFileBlock && 
-                       previousFileBlock.FileId == lastFileBlock.FileId)
-                {
-                    fileBlockStart--;
-                }
+                int fileBlockStart =  FileBlockStart(right, lastFileBlock.FileId);
 
                 int fileBlockCount = right - fileBlockStart + 1;
 
@@ -87,23 +77,13 @@ internal class Day09Base : ProblemBase
                 {
                     if (TheDisk[left] is EmptyBlock)
                     {
-                        int emptyBlockStart = left;
-                        while (emptyBlockStart + 1 < TheDisk.Count && 
-                               TheDisk[emptyBlockStart + 1] is EmptyBlock)
-                        {
-                            emptyBlockStart++;
-                        }
+                        int emptyBlockStart = EmptyBlockStart(left);
 
                         int emptyBlockCount = emptyBlockStart - left + 1;
 
                         if (emptyBlockCount >= fileBlockCount)
                         {
-                            for (int i = 0; i < fileBlockCount; i++)
-                            {
-                                TheDisk[left + i] = TheDisk[fileBlockStart + i];
-                                TheDisk[fileBlockStart + i] = new EmptyBlock(fileBlockStart + i);
-                            }
-                            //PrintDisk();
+                            MoveBlocks(left, fileBlockStart, fileBlockCount);
                             break;
                         }
                     }
@@ -115,6 +95,39 @@ internal class Day09Base : ProblemBase
             {
                 right--;
             }
+        }
+    }
+
+    private int FileBlockStart(int right, long fileId)
+    {
+        int fileBlockStart = right;
+        while (fileBlockStart > 0 &&
+               TheDisk[fileBlockStart - 1] is FileBlock previousFileBlock &&
+               previousFileBlock.FileId == fileId)
+        {
+            fileBlockStart--;
+        }
+        return fileBlockStart;
+    }
+
+    private int EmptyBlockStart(int left)
+    {
+        int emptyBlockStart = left;
+        while (emptyBlockStart + 1 < TheDisk.Count &&
+               TheDisk[emptyBlockStart + 1] is EmptyBlock)
+        {
+            emptyBlockStart++;
+        }
+
+        return emptyBlockStart;
+    }
+
+    private void MoveBlocks(int left, int fileBlockStart, int fileBlockCount)
+    {
+        for (int i = 0; i < fileBlockCount; i++)
+        {
+            TheDisk[left + i] = TheDisk[fileBlockStart + i];
+            TheDisk[fileBlockStart + i] = new EmptyBlock();
         }
     }
 

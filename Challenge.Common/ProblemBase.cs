@@ -9,7 +9,7 @@ public abstract class ProblemBase
 
     public readonly Stopwatch stopwatch = new();
 
-    public virtual string[] GetInputs(string folder, bool useTest = false, string rootFilename = "input.txt")
+    public virtual string[] GetInputs(string folder, bool useTest = true, string rootFilename = "input.txt")
     {
         if (useTest)
         {

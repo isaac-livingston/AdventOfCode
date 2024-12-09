@@ -1,13 +1,13 @@
 ﻿namespace Challenge2024.Day09;
 
-internal abstract record Block(long FileId, long Position);
+internal abstract record Block(long FileId);
 
-internal record EmptyBlock(long Position) : Block(-1, Position)
+internal record EmptyBlock() : Block(-1)
 {
     public override string ToString() => ".";
 };
 
-internal record FileBlock(long FileId, long Position) : Block(FileId, Position)
+internal record FileBlock(long FileId) : Block(FileId)
 {
     public override string ToString() => FileId.ToString();
 };
