@@ -15,7 +15,7 @@ internal class Problem1 : Day09Base
         Console.WriteLine($"Free space: {freeSpace}");
         Console.WriteLine($"File space: {fileSpace}");
 
-        DefragmentDisk();
+        AllocateFileBlocksToStartOfDisk();
 
         var checksum = Checksum();
 

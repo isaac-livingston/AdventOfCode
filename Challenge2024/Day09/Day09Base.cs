@@ -39,7 +39,7 @@ internal class Day09Base : ProblemBase
         return positionAccumulator;
     }
 
-    public void DefragmentDisk()
+    public void AllocateFileBlocksToStartOfDisk()
     {
         int left = 0;
         int right = TheDisk.Count - 1;
@@ -65,16 +65,79 @@ internal class Day09Base : ProblemBase
         }
     }
 
-    public long Checksum()
+    public void AllocateFileBlocksWithoutFragmentation()
     {
-        long checksum = 0;
+        int right = TheDisk.Count - 1;
 
-        int position = 0;
-
-        while (TheDisk[position] is FileBlock)
+        while (right >= 0)
         {
-            checksum += TheDisk[position].FileId * position;
-            position++;
+            if (TheDisk[right] is FileBlock lastFileBlock)
+            {
+                int fileBlockStart = right;
+                while (fileBlockStart > 0 && 
+                       TheDisk[fileBlockStart - 1] is FileBlock previousFileBlock && 
+                       previousFileBlock.FileId == lastFileBlock.FileId)
+                {
+                    fileBlockStart--;
+                }
+
+                int fileBlockCount = right - fileBlockStart + 1;
+
+                for (int left = 0; left < fileBlockStart; left++)
+                {
+                    if (TheDisk[left] is EmptyBlock)
+                    {
+                        int emptyBlockStart = left;
+                        while (emptyBlockStart + 1 < TheDisk.Count && 
+                               TheDisk[emptyBlockStart + 1] is EmptyBlock)
+                        {
+                            emptyBlockStart++;
+                        }
+
+                        int emptyBlockCount = emptyBlockStart - left + 1;
+
+                        if (emptyBlockCount >= fileBlockCount)
+                        {
+                            for (int i = 0; i < fileBlockCount; i++)
+                            {
+                                TheDisk[left + i] = TheDisk[fileBlockStart + i];
+                                TheDisk[fileBlockStart + i] = new EmptyBlock(fileBlockStart + i);
+                            }
+                            //PrintDisk();
+                            break;
+                        }
+                    }
+                }
+
+                right = fileBlockStart - 1;
+            }
+            else
+            {
+                right--;
+            }
+        }
+    }
+
+    public void PrintDisk()
+    {
+        for (int i = 0; i < TheDisk.Count; i++)
+        {
+            Console.Write(TheDisk[i]);
+        }
+        Console.WriteLine();
+    }
+
+    public decimal Checksum()
+    {
+        decimal checksum = 0;
+
+        for (int i = 0; i < TheDisk.Count; i++)
+        {
+            if (TheDisk[i] is FileBlock fileBlock)
+            {
+                decimal n = fileBlock.FileId * i;
+                checksum += n;
+            }
         }
 
         return checksum;

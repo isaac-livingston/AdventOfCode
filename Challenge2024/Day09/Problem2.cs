@@ -1,4 +1,6 @@
-﻿namespace Challenge2024.Day09;
+﻿using System.Diagnostics;
+
+namespace Challenge2024.Day09;
 
 internal class Problem2 : Day09Base
 {
@@ -7,5 +9,10 @@ internal class Problem2 : Day09Base
         var inputs = GetInputs(folder: "day09", false);
         ParseInputs(inputs);
 
+        AllocateFileBlocksWithoutFragmentation();
+
+        var checksum = Checksum();
+
+        Console.WriteLine($"Checksum: {checksum}");
     }
 }
