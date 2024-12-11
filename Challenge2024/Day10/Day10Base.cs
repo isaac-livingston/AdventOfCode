@@ -64,7 +64,8 @@ internal class Day10Base : ProblemBase
             var newRow = row + y;
             var newCol = col + x;
 
-            if (IsValid(newRow, newCol, currentNumber + 1) && !visited.Contains((newRow, newCol)))
+            if (IsValid(newRow, newCol, currentNumber + 1) && 
+                !visited.Contains((newRow, newCol)))
             {
                 currentPath.Steps.Add(new Step(newRow, newCol, currentNumber + 1));
                 DFS(newRow, newCol, currentNumber + 1, visited, currentPath, completedPaths);
