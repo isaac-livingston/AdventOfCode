@@ -2,103 +2,82 @@
 
 internal class Day11Base : ProblemBase
 {
-    public LinkedList<Stone> Stones { get; private set; } = [];
+    public Dictionary<long, long> StoneCounts { get; private set; } = new();
 
     public void ParseInputs(string[] inputs)
     {
-        for(int i = 0; i < inputs.Length; i++)
+        for (int i = 0; i < inputs.Length; i++)
         {
             var stones = inputs[i].Split(' ')
-                                 .Select(x => new Stone(long.Parse(x)));
+                                  .Select(long.Parse);
 
             foreach (var stone in stones)
             {
-                Stones.AddLast(stone);
+                if (StoneCounts.TryGetValue(stone, out long value))
+                {
+                    StoneCounts[stone] = ++value;
+                }
+                else
+                {
+                    StoneCounts[stone] = 1;
+                }
             }
         }
     }
 
-    public void ProcessStones(LinkedList<Stone>? stones = null)
+    public void ProcessStones()
     {
-        stones ??= Stones;
+        var newStoneCounts = new Dictionary<long, long>();
 
-        var current = stones.First;
-
-        while (current != null)
+        foreach (var (stone, count) in StoneCounts)
         {
-            var next = current.Next;
-            ProcessStone(stones, current);
-            current = next;
-        }
-    }
+            var newStones = StoneTools.Blink(stone);
 
-    private static void ProcessStone(LinkedList<Stone> stones, LinkedListNode<Stone> currentStoneNode)
-    {
-        if (currentStoneNode == null) return;
-
-        var newStones = currentStoneNode.Value.Blink();
-        var nextNode = currentStoneNode.Next;
-
-        stones.Remove(currentStoneNode);
-
-        if (nextNode == null)
-        {
-            foreach (var stone in newStones)
+            foreach (var newStone in newStones)
             {
-                stones.AddLast(stone);
+                if (newStoneCounts.ContainsKey(newStone))
+                {
+                    newStoneCounts[newStone] += count;
+                }
+                else
+                {
+                    newStoneCounts[newStone] = count;
+                }
             }
         }
-        else
-        {
-            foreach (var stone in newStones)
-            {
-                stones.AddBefore(nextNode, stone);
-            }
-        }
+
+        StoneCounts = newStoneCounts;
     }
 
-    public void PrintStones(LinkedList<Stone>? stones = null)
+    public void PrintStones()
     {
-        stones ??= Stones;
-
-        var current = stones.First;
-        while (current != null)
+        foreach (var (stone, count) in StoneCounts)
         {
-            Console.Write($"{current.Value} ");
-            current = current.Next;
+            Console.WriteLine($"{stone}: {count}");
         }
-        Console.WriteLine();
-    }
-}
-
-internal record Stone(long Value)
-{
-    public Stone[] Blink()
-    {
-        if (Value == 0)
-        {
-            return [new Stone(1)];
-        }
-        
-        var (even, digits) = StoneTools.CheckIfNumberHasEvenDigits(Value);
-
-        if (even)
-        {
-            var (left, right) = StoneTools.SplitNumber(Value, digits);
-            return [new Stone(left), new Stone(right)];
-        }
-
-        return [new Stone(Value * 2024)];
-    }
-
-    public override string ToString()
-    {
-        return Value.ToString();
     }
 }
 
 internal static class StoneTools
 {
+    public static long[] Blink(long value)
+    {
+        if (value == 0)
+        {
+            return [1];
+        }
+
+        var (even, digits) = CheckIfNumberHasEvenDigits(value);
+
+        if (even)
+        {
+            var (left, right) = SplitNumber(value, digits);
+            return [left, right];
+        }
+
+        return [value * 2024];
+    }
+
     public static (bool even, long digits) CheckIfNumberHasEvenDigits(long number)
     {
         long digits = (long)Math.Log10(number) + 1;

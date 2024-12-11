@@ -1,6 +1,6 @@
 ﻿namespace Challenge2024.Day11;
 
-internal class Problem1 : Day11Base
+internal class Problem2 : Day11Base
 {
     public override void RunSolution()
     {
@@ -9,13 +9,14 @@ internal class Problem1 : Day11Base
 
         PrintStones();
 
-        var iterations = 25;
+        var iterations = 75;
 
         for (int i = 0; i < iterations; i++)
         {
             ProcessStones();
+            Console.WriteLine($"{i + 1} iterations");
         }
 
-        Console.WriteLine($"After {iterations} iterations, there are {StoneCounts.Sum(x=>x.Value)} stones.");
+        Console.WriteLine($"After {iterations} iterations, there are {StoneCounts.Sum(x => x.Value)} stones.");
     }
 }
