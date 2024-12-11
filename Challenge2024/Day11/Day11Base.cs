@@ -3,6 +3,7 @@
 internal class Day11Base : ProblemBase
 {
     public Dictionary<long, long> StoneCounts { get; private set; } = new();
+    private readonly Dictionary<long, long[]> BlinkDict = [];
 
     public void ParseInputs(string[] inputs)
     {
@@ -31,13 +32,18 @@ internal class Day11Base : ProblemBase
 
         foreach (var (stone, count) in StoneCounts)
         {
-            var newStones = StoneTools.Blink(stone);
-
+            if (!BlinkDict.TryGetValue(stone, out long[]? newStones))
+            {
+                newStones = StoneTools.Blink(stone);
+                BlinkDict[stone] = newStones;
+            }
+            
             foreach (var newStone in newStones)
             {
-                if (newStoneCounts.ContainsKey(newStone))
+                if (newStoneCounts.TryGetValue(newStone, out long value))
                 {
-                    newStoneCounts[newStone] += count;
+                    value += count;
+                    newStoneCounts[newStone] = value;
                 }
                 else
                 {
