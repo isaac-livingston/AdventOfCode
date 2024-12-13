@@ -148,9 +148,9 @@ internal record Plot(List<Plant> Plants, int Size, int Perimeter)
         var topEdgeGroups = GroupEdgePlants(topEdges, groupByColumn: true);
         var bottomEdgeGroups = GroupEdgePlants(bottomEdges, groupByColumn: true);
 
-        int sides = topEdgeGroups.Count + 
-                    leftEdgeGroups.Count + 
-                    rightEdgeGroups.Count + 
+        int sides = topEdgeGroups.Count +
+                    leftEdgeGroups.Count +
+                    rightEdgeGroups.Count +
                     bottomEdgeGroups.Count;
 
         return sides;
@@ -209,7 +209,7 @@ internal record Plot(List<Plant> Plants, int Size, int Perimeter)
                 int neighborRow = plant.Row + dRow[i];
                 int neighborCol = plant.Col + dCol[i];
 
-                bool hasNeighbor = plantSet.Any(x=>x.Row == neighborRow && x.Col == neighborCol);
+                bool hasNeighbor = plantSet.Any(x => x.Row == neighborRow && x.Col == neighborCol);
 
                 switch (i)
                 {
@@ -222,5 +222,5 @@ internal record Plot(List<Plant> Plants, int Size, int Perimeter)
         }
     }
 
-    public override string ToString() => $"A region of {Plants.FirstOrDefault()?.PlantType} plants with price {Size} * {Sides} = {SidesFenceCost}";
+    public override string ToString() => $"A region of {Plants.FirstOrDefault()?.PlantType} plants with with perimeter price: {Size} * {Perimeter} = {PerimeterFenceCost}, and side price: {Size} * {Sides} = {SidesFenceCost}";
 }

@@ -9,6 +9,12 @@ internal class Problem2 : Day12Base
 
         var plots = FindPlots();
 
-        Console.WriteLine($"Total price: {plots.Sum(x => x.SidesFenceCost)}");
+        foreach(var p in plots)
+        {
+            Console.WriteLine(p);
+        }
+
+        Console.WriteLine($"Total side fence price: {plots.Sum(x => x.SidesFenceCost)}");
+        Console.WriteLine($"Total perimeter fence price: {plots.Sum(x => x.PerimeterFenceCost)}");
     }
 }
