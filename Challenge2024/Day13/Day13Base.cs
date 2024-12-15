@@ -22,9 +22,9 @@ Prize: X=18641, Y=10279
 
 internal class Day13Base : ProblemBase
 {
-    public List<Machine> Machines { get; } = new List<Machine>();
+    public List<Machine> Machines { get; } = [];
 
-    public void ParseInputs(string[] inputs)
+    public void ParseInputs(string[] inputs, long offset = 0)
     {
         var inputSet = new List<string>();
 
@@ -45,22 +45,22 @@ internal class Day13Base : ProblemBase
 
                 var buttonA = inputSet[0].Split(':', StringSplitOptions.TrimEntries)[1]
                                          .Split(',', StringSplitOptions.TrimEntries);
-                machine.A = new Button(
+                machine.ButtonX = new Button(
                     int.Parse(buttonA[0].Split('+')[1]),
                     int.Parse(buttonA[1].Split('+')[1]),
                     3);
 
                 var buttonB = inputSet[1].Split(':', StringSplitOptions.TrimEntries)[1]
                                          .Split(',', StringSplitOptions.TrimEntries);
-                machine.B = new Button(
+                machine.ButtonY = new Button(
                     int.Parse(buttonB[0].Split('+')[1]),
                     int.Parse(buttonB[1].Split('+')[1]),
                     1);
 
                 var prize = inputSet[2].Split(':', StringSplitOptions.TrimEntries)[1]
                                        .Split(',', StringSplitOptions.TrimEntries);
-                machine.PrizeX = int.Parse(prize[0].Split('=')[1]);
-                machine.PrizeY = int.Parse(prize[1].Split('=')[1]);
+                machine.PrizeX = offset + int.Parse(prize[0].Split('=')[1]);
+                machine.PrizeY = offset + int.Parse(prize[1].Split('=')[1]);
 
                 Machines.Add(machine);
                 inputSet.Clear();
@@ -71,48 +71,68 @@ internal class Day13Base : ProblemBase
 
 internal class Machine()
 {
-    public Button A { get; set; } = default!;
-    public Button B { get; set; } = default!;
+    public Button ButtonX { get; set; } = default!;
+    public Button ButtonY { get; set; } = default!;
 
-    public int PrizeX { get; set; }
-    public int PrizeY { get; set; }
+    public long PrizeX { get; set; }
+    public long PrizeY { get; set; }
 
-    private int _buttonAPresses;
-    private int _buttonBPresses;
+    private double _buttonXPresses;
+    private double _buttonYPresses;
 
     public void Reset()
     {
-        _buttonAPresses = 0;
-        _buttonBPresses = 0;
+        _buttonXPresses = 0;
+        _buttonYPresses = 0;
     }
 
-    public void PressButtonA()
+    // well, I need to brush up on my linear algebra :/
+    public bool PrizeWinnable()
     {
-        _buttonAPresses++;
+        Reset();
+
+        // Prize coordinates (target values)
+        double prizeX = PrizeX;
+        double prizeY = PrizeY;
+
+        // Button movement increments (coefficients in the system of equations)
+        double a1 = ButtonX.XIncrement;
+        double b1 = ButtonY.XIncrement;
+        double a2 = ButtonX.YIncrement;
+        double b2 = ButtonY.YIncrement;
+
+        // Determinant of the coefficient matrix
+        double determinant = a1 * b2 - b1 * a2;
+
+        // Check if the system has a unique solution
+        if (determinant == 0)
+        {
+            return false; // No unique solution (parallel or overlapping lines)
+        }
+
+        // Solve for x (number of ButtonX presses) and y (number of ButtonY presses)
+        double y = (prizeY * a1 - prizeX * a2) / determinant; // Equivalent to solving for y
+        double x = (prizeX - y * b1) / a1;                    // Substitute y to solve for x
+
+        // Check if both solutions are integers
+        if (x % 1 != 0 || y % 1 != 0)
+        {
+            return false;
+        }
+
+        // Store the number of button presses if valid
+        _buttonXPresses = x;
+        _buttonYPresses = y;
+
+        return true;
     }
 
-    public void PressButtonB()
-    {
-        _buttonBPresses++;
-    }
-
-    public int TotalCost => A.TokenCost * _buttonAPresses + B.TokenCost * _buttonBPresses;
-
-    public bool IsWinner()
-    {
-        int x = A.XIncrement * _buttonAPresses + B.XIncrement * _buttonBPresses;
-        int y = A.YIncrement * _buttonAPresses + B.YIncrement * _buttonBPresses;
-
-        return x == PrizeX && y == PrizeY;
-    }
+    public double TotalCost => ButtonX.TokenCost * _buttonXPresses + ButtonY.TokenCost * _buttonYPresses;
 
     public override string ToString()
     {
-        return $"Machine: A: [{A.XIncrement}x,  {A.YIncrement}y], B: [{B.XIncrement}x, {B.YIncrement}y], Prize: {PrizeX}x, {PrizeY}y";
+        return $"Machine: A: [{ButtonX.XIncrement}x,  {ButtonX.YIncrement}y], B: [{ButtonY.XIncrement}x, {ButtonY.YIncrement}y], Prize: {PrizeX}x, {PrizeY}y";
     }
 }
 
-internal record Button(int XIncrement, int YIncrement, int TokenCost)
-{
-    public (int X, int Y) Move(int x, int y) => (x + XIncrement, y + YIncrement);
-}
+internal record Button(double XIncrement, double YIncrement, int TokenCost);
