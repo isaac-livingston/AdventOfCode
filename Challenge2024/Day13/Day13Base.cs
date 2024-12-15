@@ -101,6 +101,10 @@ internal class Machine()
         double a2 = ButtonX.YIncrement;
         double b2 = ButtonY.YIncrement;
 
+        // System of equations:
+        // a1 * x + b1 * y = PrizeX​
+        // a2 * x + b2 * y = PrizeY
+
         // Determinant of the coefficient matrix
         double determinant = a1 * b2 - b1 * a2;
 
