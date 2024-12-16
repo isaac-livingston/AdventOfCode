@@ -7,5 +7,10 @@ internal class Problem1 : Day15Base
         var inputs = GetInputs(folder: "day15", false);
         ParseInputs(inputs);
 
+        PrintGrid();
+
+        ExecuteInstructions();
+
+        Console.WriteLine(GetCoordinateSum());
     }
 }
