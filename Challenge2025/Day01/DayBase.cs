@@ -4,7 +4,6 @@ namespace Challenge2025.Day01;
 
 internal abstract class DayBase : ProblemBase
 {
-    // Shared state between Problem1 and Problem2 goes here
     protected Collection<int> Steps = [];
 
     protected void ParseInputs(string[] inputs)
