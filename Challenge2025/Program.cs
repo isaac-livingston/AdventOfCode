@@ -1,7 +1,7 @@
 string? assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 string? defaultNameSpace = assemblyName;
 
-int day = 2;
+int day = 3;
 int problem = 2;
 
 if (args.Length == 2)
