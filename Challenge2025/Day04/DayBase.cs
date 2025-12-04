@@ -91,4 +91,86 @@ internal abstract class DayBase : ProblemBase
 
         return totalRemoved;
     }
+
+    /// <summary>
+    /// Removes rolls while capturing frames for GIF animation
+    /// </summary>
+    /// <param name="options">Frame rendering options (colors, sizes, etc.)</param>
+    /// <param name="outputGifPath">Path for the output GIF file</param>
+    /// <param name="frameDelayMs">Delay between frames in milliseconds</param>
+    /// <param name="captureEveryNIterations">Capture a frame every N iterations (1 = every iteration)</param>
+    /// <returns>Total number of rolls removed</returns>
+    protected int RemoveRollsWithGif(
+        FrameRenderOptions? options = null, 
+        string? outputGifPath = null,
+        int frameDelayMs = 100,
+        int captureEveryNIterations = 1)
+    {
+        var renderer = new FrameRenderer(options);
+        var totalRemoved = 0;
+        var iteration = 0;
+
+        // Capture initial state
+        renderer.RenderFrame(
+            Grid, 
+            PaperRolls.Select(p => (p.R, p.C)).ToList()
+        );
+
+        while (true)
+        {
+            var rollsToRemove = PaperRolls.Where(IsMoveable).ToList();
+
+            if (rollsToRemove.Count == 0)
+            {
+                break;
+            }
+
+            // Capture frame with highlighted rolls before removal
+            if (iteration % captureEveryNIterations == 0)
+            {
+                renderer.RenderFrame(
+                    Grid,
+                    PaperRolls.Select(p => (p.R, p.C)).ToList(),
+                    rollsToRemove.Select(p => (p.R, p.C)).ToList()
+                );
+            }
+
+            foreach (var roll in rollsToRemove)
+            {
+                Grid[roll.R, roll.C] = 1;
+                PaperRolls.Remove(roll);
+            }
+
+            totalRemoved += rollsToRemove.Count;
+            iteration++;
+
+            // Capture frame after removal
+            if (iteration % captureEveryNIterations == 0)
+            {
+                renderer.RenderFrame(
+                    Grid,
+                    PaperRolls.Select(p => (p.R, p.C)).ToList()
+                );
+            }
+        }
+
+        // Capture final state
+        renderer.RenderFrame(
+            Grid,
+            PaperRolls.Select(p => (p.R, p.C)).ToList()
+        );
+
+        // Generate GIF
+        var gifPath = outputGifPath ?? Path.Combine(renderer.OutputDirectory, "..", "day04_animation.gif");
+        var framePaths = renderer.GetFramePaths();
+        
+        if (framePaths.Length > 0)
+        {
+            Console.WriteLine($"Generating GIF from {framePaths.Length} frames...");
+            GifWriter.Create(gifPath, framePaths, frameDelayMs);
+            Console.WriteLine($"GIF saved to: {gifPath}");
+        }
+
+        return totalRemoved;
+    }
 }
