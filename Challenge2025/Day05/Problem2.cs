@@ -7,8 +7,13 @@ internal class Problem2 : DayBase
         var inputs = GetInputs(folder: "day05", useTest: false);
         ParseInputs(inputs);
 
-        var result = CountAllFreshProductCodes();
+        bool maskAnswer = true;
 
-        Console.WriteLine($"Answer: {result}");
+        // Show animated visualization (maskAnswer: true hides spoilers)
+        var result = Visualizer.ShowRangeStatsAnimated(Ranges, maskAnswer: maskAnswer);
+
+        Console.WriteLine(maskAnswer 
+            ? "\nAnswer: ***,***,***,***,***" 
+            : $"\nAnswer: {result:N0}");
     }
 }
