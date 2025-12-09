@@ -17,7 +17,7 @@ internal abstract class DayBase : ProblemBase
     protected void ParseInputs(string[] inputs)
     {
         RedTiles = [.. inputs.Select(RedTile.Parse)];
-        PolygonVertices = RedTiles.Select(t => (t.X, t.Y)).ToList();
+        PolygonVertices = [.. RedTiles.Select(t => (t.X, t.Y))];
     }
 
     /// <summary>
