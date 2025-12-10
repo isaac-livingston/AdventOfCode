@@ -16,7 +16,7 @@ internal class LightPanel(bool[] targetState, int[][] buttonToggles, int[] jolta
 {
     public bool[] TargetState { get; } = targetState;
     public int LightCount => TargetState.Length;
-    public Button[] Buttons { get; } = buttonToggles.Select((toggles, i) => new Button(i, toggles)).ToArray();
+    public Button[] Buttons { get; } = [.. buttonToggles.Select((toggles, i) => new Button(i, toggles))];
     public int[] Joltages { get; } = joltages;
 
     public int MinimumPresses => Buttons.Sum(b => b.Presses);
